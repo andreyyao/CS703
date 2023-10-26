@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+\usepackage[backend=biber]{biblatex}
+\usepackage[margin=1in]{geometry}
+
+\addbibresource{references.bib}
+%%%% Document Information %%%%
+\title{CS 703 Project Proposal}
+\author{Andrey Yao, Gabe Orlanski}
+\date{\today}
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+The Curry-Howard correspondence is a well-known connection between type systems in programming languages and certain sorts of logics. For example, propositions in intuitionistic propositional logic can be interpreted as the types in simply typed lambda calculus (STLC). Similarly, proof trees for intuitionistic logic correspond to typing derivations in STLC, and finding an inhabitant of an STLC type gives a corresponding proof term in intuitionistic logic.
+
+Recent research in program synthesis expands on the Curry-Howard correspondence by translating problems in type-directed synthesis into a more familiar problem of proof search in intuitionistic logic. For example, \cite{benke2016SynthesisFunctionalPrograms} synthesizes terms for a given type in ML(metalanguage) with regards to an external library by translating the ML types into a fragment of first order intuitionistic logic. Similarly, this paper \cite{osera2015TypeandexampledirectedProgramSynthesis} combines type-based program synthesis with input-output examples. They also use a synthesis approach inspired by proof searching techniques.
+
+While the Curry-Howard correspondence is traditionally framed as a connection between types and intuitionstic logic, \cite{griffin1989FormulaeastypeNotionControl} provides a connection between classical logic and a version of typed scheme, with a primitive \texttt{call/cc} operator.
+
+For this project, we plan to build a synthesizer for programs in a minimal language similar to a typed scheme with \texttt{call/cc}. We will use a similar deductive, type-directed approach to prune the search space and give certain correctness guarantees of synthesized programs. More specifically, given a type in a typed scheme, as well as a typing context, we will translate the type into a formula in classical logic, call an external solver to find a proof of the formula if it exists, and then translate the proof back to a (well-typed) program in typed scheme. If time permits, we could add constraints to the program specification, or to provide input-output examples to the synthesizer as extra constraints.
+
+
+\section{Roadmap}
+
+\begin{enumerate}
+\item Formal specification of the typed scheme
+\item An implementation of the parser and interpreter
+\item Translator from types to classical logic formulas
+\item
+\end{enumerate}
+
+\printbibliography
+
+\end{document}
