@@ -12,9 +12,16 @@ tokens :-
   $white+                        ;
   "--".*                         ;
   let                            { \s -> Let }
-  in                             { \s -> In }
+  match                          { \s -> Match }
+  inl                            { \s -> InL }
+  inr                            { \s -> InR }
+  call/cc                        { \s -> CallCC }
+  proj1                          { \s -> Proj1 }
+  proj2                          { \s -> Proj2 }
   $digit+                        { \s -> Int (read s) }
   [\=\+\-\*\/\(\)]               { \s -> Sym (head s) }
+  "true"                         { \s -> Bool True}
+  "false"                        { \s -> Bool False}
   $alpha [$alpha $digit \_ \']*  { \s -> Var s }
 
 {
@@ -23,10 +30,16 @@ tokens :-
 -- The token type:
 data Token
   = Let
-  | In
+  | Proj1
+  | Proj2
+  | Match
+  | InL
+  | InR
+  | CallCC
   | Sym Char
   | Var String
   | Int Int
+  | Bool Bool
   deriving (Eq, Show)
 
 scanMany :: String -> [Token]
