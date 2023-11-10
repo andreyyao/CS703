@@ -15,9 +15,9 @@ tokens :-
   inl                            { \s -> InL }
   inr                            { \s -> InR }
   call/cc                        { \s -> CallCC }
+  abort                          { \s -> Abort }
   proj1                          { \s -> Proj1 }
   proj2                          { \s -> Proj2 }
-  [\=\+\-\*\/\(\)]               { \s -> Sym (head s) }
   $digit+                        { \s -> IntLit (read s) }
   "true"                         { \s -> BoolLit True}
   "false"                        { \s -> BoolLit False}
@@ -28,6 +28,9 @@ tokens :-
   "\\"                           { \s -> Slash }
   "("                            { \s -> LParen }
   ")"                            { \s -> RParen }
+  "+"                            { \s -> Plus }
+  "-"                            { \s -> Minus }
+  "*"                            { \s -> Times }
 
 {
 -- Each action has type :: String -> Token
@@ -40,7 +43,7 @@ data Token
   | InL
   | InR
   | CallCC
-  | Sym Char
+  | Abort
   | Var String
   | IntLit Int
   | BoolLit Bool
@@ -54,6 +57,9 @@ data Token
   | Slash
   | LParen
   | RParen
+  | Plus
+  | Minus
+  | Times
   deriving (Eq, Show)
 
 scanMany :: String -> [Token]

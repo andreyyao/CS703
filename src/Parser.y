@@ -9,8 +9,11 @@ import Ast
 %tokentype { L.Token }
 %error { parseError }
 
+%left '+' '-'
+%left '*'
+%right arrow
+
 %token
-sym             { L.Sym $$ }
 var             { L.Var $$ }
 iLit            { L.IntLit $$ }
 bLit            { L.BoolLit $$ }
@@ -19,12 +22,14 @@ inl             { L.InL }
 inr             { L.InR }
 proj1           { L.Proj1 }
 proj2           { L.Proj2 }
+abort           { L.Abort }
 callcc          { L.CallCC }
 Int             { L.Int }
-Bool             { L.Bool }
-'+'             { L.Sym $$ }
-'-'             { L.Sym $$ }
-'*'             { L.Sym $$ }
+Bool            { L.Bool }
+Void            { L.Void }
+'+'             { L.Plus }
+'-'             { L.Minus }
+'*'             { L.Times }
 '.'             { L.Dot }
 ','             { L.Comma }
 ':'             { L.Colon }
@@ -35,14 +40,26 @@ arrow           { L.Arrow }
 
 %%
 
-Exp : Exp '-' Exp { Ast.Binary $1 Ast.Sub $3 }
-    | Exp '+' Exp { Ast.Binary $1 Ast.Add $3 }
-    | Exp '*' Exp { Ast.Binary $1 Ast.Mul $3 }
-    | '(' Exp ')' { $2 }
+Expr : '\\' var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
+     | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
+     | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
+     | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }
+     | Expr '*' Expr { Ast.Binary $1 Ast.Mul $3 }
+     | callcc Expr { Ast.Callcc $2 }
+     | abort Expr { Ast.Abort $2 }
+     | proj1 Expr { Ast.Projl $2 }
+     | proj2 Expr { Ast.Projr $2 }
+     | iLit { Ast.Const (Ast.ConstInt $1) }
+     | bLit { Ast.Const (Ast.ConstBool $1) }
+     | var { Ast.Var $1 }
+     | '(' Expr ')' { $2 }
 
-Typ : Int { Ast.TInt }
-    | Bool { Ast.TBool }
-
+Type : Int { Ast.TInt }
+     | Bool { Ast.TBool }
+     | Void { Ast.TVoid }
+     | Type '+' Type { Ast.TSum $1 $3 }
+     | Type '*' Type { Ast.TProd $1 $3 }
+     | Type arrow Type { Ast.TFunc $1 $3 }
 
 {
 
