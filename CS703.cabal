@@ -15,7 +15,9 @@ extra-source-files:
 
 library
   exposed-modules:
-      Lex
+      Ast
+      Lexer
+      Parser
   other-modules:
       Paths_CS703
   hs-source-dirs:

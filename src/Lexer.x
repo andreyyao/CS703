@@ -1,36 +1,40 @@
 {
-module Lex (scanMany) where
+module Lexer (scanMany, Token(..)) where
 }
 
 %wrapper "basic"
 
 $digit = 0-9            -- digits
-$alpha = [a-zA-Z]       -- alphabetic characters
+$alpha = [a-z]          -- alphabetic characters
 
 tokens :-
 
   $white+                        ;
   "--".*                         ;
-  let                            { \s -> Let }
   match                          { \s -> Match }
   inl                            { \s -> InL }
   inr                            { \s -> InR }
   call/cc                        { \s -> CallCC }
   proj1                          { \s -> Proj1 }
   proj2                          { \s -> Proj2 }
-  $digit+                        { \s -> Int (read s) }
   [\=\+\-\*\/\(\)]               { \s -> Sym (head s) }
-  "true"                         { \s -> Bool True}
-  "false"                        { \s -> Bool False}
+  $digit+                        { \s -> IntLit (read s) }
+  "true"                         { \s -> BoolLit True}
+  "false"                        { \s -> BoolLit False}
   $alpha [$alpha $digit \_ \']*  { \s -> Var s }
+  "."                            { \s -> Dot }
+  ","                            { \s -> Comma }
+  ":"                            { \s -> Colon }
+  "\\"                           { \s -> Slash }
+  "("                            { \s -> LParen }
+  ")"                            { \s -> RParen }
 
 {
 -- Each action has type :: String -> Token
 
 -- The token type:
 data Token
-  = Let
-  | Proj1
+  = Proj1
   | Proj2
   | Match
   | InL
@@ -38,11 +42,21 @@ data Token
   | CallCC
   | Sym Char
   | Var String
-  | Int Int
-  | Bool Bool
+  | IntLit Int
+  | BoolLit Bool
+  | Int
+  | Bool
+  | Void
+  | Arrow
+  | Dot
+  | Colon
+  | Comma
+  | Slash
+  | LParen
+  | RParen
   deriving (Eq, Show)
 
 scanMany :: String -> [Token]
 scanMany input = do
   alexScanTokens input
-}  
+}
