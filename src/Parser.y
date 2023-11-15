@@ -40,19 +40,6 @@ arrow           { L.Arrow }
 
 %%
 
-Expr : '\\' var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
-     | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
-     | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
-     | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }
-     | Expr '*' Expr { Ast.Binary $1 Ast.Mul $3 }
-     | callcc Expr { Ast.Callcc $2 }
-     | abort Expr { Ast.Abort $2 }
-     | proj1 Expr { Ast.Projl $2 }
-     | proj2 Expr { Ast.Projr $2 }
-     | iLit { Ast.Const (Ast.ConstInt $1) }
-     | bLit { Ast.Const (Ast.ConstBool $1) }
-     | var { Ast.Var $1 }
-     | '(' Expr ')' { $2 }
 
 Type : Int { Ast.TInt }
      | Bool { Ast.TBool }
@@ -60,6 +47,23 @@ Type : Int { Ast.TInt }
      | Type '+' Type { Ast.TSum $1 $3 }
      | Type '*' Type { Ast.TProd $1 $3 }
      | Type arrow Type { Ast.TFunc $1 $3 }
+
+Expr : '\\' var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
+     | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
+     | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
+     | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }
+     | Expr '*' Expr { Ast.Binary $1 Ast.Mul $3 }
+     | callcc Expr { Ast.Callcc $2 }
+     | abort Expr { Ast.Abort $2 }
+     | inl Type Expr { Ast.Inl $2 $3 }
+     | inr Type Expr { Ast.Inr $2 $3 }
+     | proj1 Expr { Ast.Projl $2 }
+     | proj2 Expr { Ast.Projr $2 }
+     | Expr Expr { Ast.App $1 $2 }
+     | iLit { Ast.Const (Ast.ConstInt $1) }
+     | bLit { Ast.Const (Ast.ConstBool $1) }
+     | var { Ast.Var $1 }
+     | '(' Expr ')' { $2 }
 
 {
 

@@ -11,10 +11,11 @@ data Expr
   | Projl Expr
   | Projr Expr
   | Pair Expr Expr
-  | Inl Expr
-  | Inr Expr
+  | Inl Tipe Expr
+  | Inr Tipe Expr
   | Match Expr Tipe String Expr String Expr
   | Lambda String Tipe Expr
+  | App Expr Expr
   | Let String Tipe Expr Expr
   | Callcc Expr
   | Abort Expr
