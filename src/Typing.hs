@@ -9,7 +9,7 @@ import GHC.Base (liftA2)
 type Context = Map String Tipe
 
 -- typecheck c e returns `Just t` if `e` type checks to `t` in context `c`, and `Nothing` otherwise
-typecheck:: Context -> Expr -> Maybe Tipe
+typecheck :: Context -> Expr -> Maybe Tipe
 typecheck ctxt e =
   case e of
     Var v -> Map.lookup v ctxt
@@ -30,14 +30,6 @@ typecheck ctxt e =
         Just (TProd t1 t2) -> Just t2
         _ -> Nothing
     Pair e1 e2 -> liftA2 TProd (typecheck ctxt e1) (typecheck ctxt e2)
-    Inl t e ->
-      case (t, typecheck ctxt e) of
-        (TSum t1 t2, Just t') | t' == t1 -> Just t
-        _ -> Nothing
-    Inr t e ->
-      case (t, typecheck ctxt e) of
-        (TSum t1 t2, Just t') | t' == t2 -> Just t
-        _ -> Nothing
     Lambda v t e ->
       typecheck (Map.insert v t ctxt) e
     Let v t e1 e2 ->

@@ -11,13 +11,10 @@ tokens :-
 
   $white+                        ;
   "--".*                         ;
-  match                          { \s -> Match }
-  inl                            { \s -> InL }
-  inr                            { \s -> InR }
   call/cc                        { \s -> CallCC }
   abort                          { \s -> Abort }
-  proj1                          { \s -> Proj1 }
-  proj2                          { \s -> Proj2 }
+  fst                            { \s -> Proj1 }
+  snd                            { \s -> Proj2 }
   $digit+                        { \s -> IntLit (read s) }
   "true"                         { \s -> BoolLit True}
   "false"                        { \s -> BoolLit False}
@@ -39,9 +36,6 @@ tokens :-
 data Token
   = Proj1
   | Proj2
-  | Match
-  | InL
-  | InR
   | CallCC
   | Abort
   | Var String

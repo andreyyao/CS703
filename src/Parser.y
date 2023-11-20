@@ -17,9 +17,6 @@ import Ast
 var             { L.Var $$ }
 iLit            { L.IntLit $$ }
 bLit            { L.BoolLit $$ }
-match           { L.Match }
-inl             { L.InL }
-inr             { L.InR }
 proj1           { L.Proj1 }
 proj2           { L.Proj2 }
 abort           { L.Abort }
@@ -55,8 +52,6 @@ Expr : '\\' var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
      | Expr '*' Expr { Ast.Binary $1 Ast.Mul $3 }
      | callcc Expr { Ast.Callcc $2 }
      | abort Expr { Ast.Abort $2 }
-     | inl Type Expr { Ast.Inl $2 $3 }
-     | inr Type Expr { Ast.Inr $2 $3 }
      | proj1 Expr { Ast.Projl $2 }
      | proj2 Expr { Ast.Projr $2 }
      | Expr Expr { Ast.App $1 $2 }
