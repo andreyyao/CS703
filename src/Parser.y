@@ -21,6 +21,7 @@ proj1           { L.Proj1 }
 proj2           { L.Proj2 }
 abort           { L.Abort }
 callcc          { L.CallCC }
+lambda          { L.Lambda}
 Int             { L.Int }
 Bool            { L.Bool }
 Void            { L.Void }
@@ -45,7 +46,7 @@ Type : Int { Ast.TInt }
      | Type '*' Type { Ast.TProd $1 $3 }
      | Type arrow Type { Ast.TFunc $1 $3 }
 
-Expr : '\\' var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
+Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
      | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
      | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
      | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }

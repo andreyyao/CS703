@@ -11,7 +11,8 @@ tokens :-
 
   $white+                        ;
   "--".*                         ;
-  call/cc                        { \s -> CallCC }
+  callcc                        { \s -> CallCC }
+  lambda                         { \s -> Lambda }
   abort                          { \s -> Abort }
   fst                            { \s -> Proj1 }
   snd                            { \s -> Proj2 }
@@ -37,6 +38,7 @@ data Token
   = Proj1
   | Proj2
   | CallCC
+  | Lambda
   | Abort
   | Var String
   | IntLit Int
