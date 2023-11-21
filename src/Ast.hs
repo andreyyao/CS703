@@ -11,6 +11,8 @@ data Expr
   | Projl Expr
   | Projr Expr
   | Pair Expr Expr
+  | Define String Expr
+  | Set String Expr
   | Lambda String Tipe Expr
   | App Expr Expr
   | Let String Tipe Expr Expr

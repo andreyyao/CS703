@@ -17,6 +17,7 @@ tokens :-
   abort                          { \s -> Abort }
   fst                            { \s -> Proj1 }
   snd                            { \s -> Proj2 }
+  set                            { \s -> set }
   $digit+                        { \s -> IntLit (read s) }
   "true"                         { \s -> BoolLit True}
   "false"                        { \s -> BoolLit False}
@@ -41,6 +42,7 @@ data Token
   | CallCC
   | Define
   | Lambda
+  | Set
   | Abort
   | Var String
   | IntLit Int
