@@ -20,6 +20,7 @@ bLit            { L.BoolLit $$ }
 proj1           { L.Proj1 }
 proj2           { L.Proj2 }
 abort           { L.Abort }
+define          { L.Define }
 callcc          { L.CallCC }
 lambda          { L.Lambda}
 Int             { L.Int }

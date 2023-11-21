@@ -13,6 +13,7 @@ tokens :-
   "--".*                         ;
   callcc                        { \s -> CallCC }
   lambda                         { \s -> Lambda }
+  define                         { \s -> Define }
   abort                          { \s -> Abort }
   fst                            { \s -> Proj1 }
   snd                            { \s -> Proj2 }
@@ -38,6 +39,7 @@ data Token
   = Proj1
   | Proj2
   | CallCC
+  | Define
   | Lambda
   | Abort
   | Var String

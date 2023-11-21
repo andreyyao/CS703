@@ -1,1 +1,3 @@
-(10 + (callcc (\ a: Int.((a+32) + 2))))
+(define x 0)
+(10 + (callcc (lambda a: (set x a)) 5))
+(x 1)
