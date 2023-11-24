@@ -20,7 +20,8 @@ bLit            { L.BoolLit $$ }
 proj1           { L.Proj1 }
 proj2           { L.Proj2 }
 abort           { L.Abort }
-define          { L.Define }
+let             { L.Let }
+in              { L.In }
 callcc          { L.CallCC }
 lambda          { L.Lambda}
 Int             { L.Int }
@@ -32,6 +33,7 @@ Void            { L.Void }
 '.'             { L.Dot }
 ','             { L.Comma }
 ':'             { L.Colon }
+':='            { L.Coloneq }
 '\\'            { L.Slash }
 '('             { L.LParen }
 ')'             { L.RParen }
@@ -48,6 +50,7 @@ Type : Int { Ast.TInt }
      | Type arrow Type { Ast.TFunc $1 $3 }
 
 Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
+     | let var ':=' Expr in Expr { Ast.Let $2 $4 $6 }
      | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
      | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
      | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }

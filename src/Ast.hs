@@ -13,7 +13,7 @@ data Expr
   | Pair Expr Expr
   | Lambda String Tipe Expr
   | App Expr Expr
-  | Let String Tipe Expr Expr
+  | Let String Expr Expr
   | Callcc Expr
   | Abort Expr
   deriving (Eq)

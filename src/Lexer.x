@@ -11,10 +11,11 @@ tokens :-
 
   $white+                        ;
   "--".*                         ;
-  callcc                        { \s -> CallCC }
-  lambda                         { \s -> Lambda }
-  define                         { \s -> Define }
+  callcc                         { \s -> CallCC }
   abort                          { \s -> Abort }
+  lambda                         { \s -> Lambda }
+  let                            { \s -> Let }
+  in                             { \s -> In }
   fst                            { \s -> Proj1 }
   snd                            { \s -> Proj2 }
   $digit+                        { \s -> IntLit (read s) }
@@ -30,6 +31,7 @@ tokens :-
   "+"                            { \s -> Plus }
   "-"                            { \s -> Minus }
   "*"                            { \s -> Times }
+  ":="                           { \s -> Coloneq }
 
 {
 -- Each action has type :: String -> Token
@@ -39,7 +41,8 @@ data Token
   = Proj1
   | Proj2
   | CallCC
-  | Define
+  | Let
+  | In
   | Lambda
   | Abort
   | Var String
@@ -52,6 +55,7 @@ data Token
   | Dot
   | Colon
   | Comma
+  | Coloneq
   | Slash
   | LParen
   | RParen
