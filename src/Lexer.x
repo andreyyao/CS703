@@ -11,6 +11,9 @@ tokens :-
 
   $white+                        ;
   "--".*                         ;
+  Int                            { \s -> Int }
+  Bool                           { \s -> Bool }
+  Void                           { \s -> Void }
   callcc                         { \s -> CallCC }
   abort                          { \s -> Abort }
   lambda                         { \s -> Lambda }
@@ -32,6 +35,8 @@ tokens :-
   "-"                            { \s -> Minus }
   "*"                            { \s -> Times }
   ":="                           { \s -> Coloneq }
+  "{|"                           { \s -> LBrack }
+  "|}"                           { \s -> RBrack }
 
 {
 -- Each action has type :: String -> Token
@@ -62,6 +67,8 @@ data Token
   | Plus
   | Minus
   | Times
+  | LBrack
+  | RBrack
   deriving (Eq, Show)
 
 scanMany :: String -> [Token]

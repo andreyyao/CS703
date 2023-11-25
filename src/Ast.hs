@@ -16,7 +16,8 @@ data Expr
   | Let String Expr Expr
   | Callcc Expr
   | Abort Expr
-  deriving (Eq)
+  | Hole Tipe
+  deriving (Eq, Show)
 
 data Tipe
   = TFunc Tipe Tipe
@@ -25,4 +26,4 @@ data Tipe
   | TVoid -- The "false" type, with no elements
   | TBool
   | TInt
-  deriving (Eq)
+  deriving (Eq, Show)

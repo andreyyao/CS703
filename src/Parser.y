@@ -5,7 +5,8 @@ import Lexer as L
 import Ast
 }
 
-%name parse
+%name parseExpr Expr
+%name parseType Type
 %tokentype { L.Token }
 %error { parseError }
 
@@ -38,6 +39,8 @@ Void            { L.Void }
 '('             { L.LParen }
 ')'             { L.RParen }
 arrow           { L.Arrow }
+lbrack          { L.LBrack }
+rbrack          { L.RBrack }
 
 %%
 
@@ -63,11 +66,10 @@ Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
      | iLit { Ast.Const (Ast.ConstInt $1) }
      | bLit { Ast.Const (Ast.ConstBool $1) }
      | var { Ast.Var $1 }
+     | lbrack Type rbrack { Ast.Hole $2 }
      | '(' Expr ')' { $2 }
 
 {
-
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
-
 }
