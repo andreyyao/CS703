@@ -18,9 +18,9 @@ library
       Ast
       Lexer
       Parser
+      Typing
   other-modules:
       Interp
-      Typing
       Paths_CS703
   hs-source-dirs:
       src

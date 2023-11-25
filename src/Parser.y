@@ -48,7 +48,6 @@ rbrack          { L.RBrack }
 Type : Int { Ast.TInt }
      | Bool { Ast.TBool }
      | Void { Ast.TVoid }
-     | Type '+' Type { Ast.TSum $1 $3 }
      | Type '*' Type { Ast.TProd $1 $3 }
      | Type arrow Type { Ast.TFunc $1 $3 }
 

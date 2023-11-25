@@ -41,3 +41,4 @@ typecheck ctxt e =
     Abort e ->
       case typecheck ctxt e of
         Just TVoid -> error "unimplemented"
+    Hole t -> Just t

@@ -14,6 +14,7 @@ library:
   - Ast
   - Lexer
   - Parser
+  - Typing
   dependencies:
   - containers
   - array
