@@ -34,7 +34,7 @@ Void            { L.Void }
 '.'             { L.Dot }
 ','             { L.Comma }
 ':'             { L.Colon }
-':='            { L.Coloneq }
+ass             { L.Coloneq }
 '('             { L.LParen }
 ')'             { L.RParen }
 arrow           { L.Arrow }
@@ -52,10 +52,8 @@ Type : Int { Ast.TInt }
      | '(' Type ')' { $2 }
 
 Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
-     | let var ':=' Expr in Expr { Ast.Let $2 $4 $6 }
+     | let var ass Expr in Expr { Ast.Let $2 $4 $6 }
      | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
-     | define var Expr { Ast.Define $2 $3 }
-     | set var Expr    { Ast.Set $2 $3 }
      | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
      | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }
      | Expr '*' Expr { Ast.Binary $1 Ast.Mul $3 }

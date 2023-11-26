@@ -37,8 +37,14 @@ typecheck' ctxt e =
     Lambda x t e -> do
       t' <- typecheck' (Map.insert x t ctxt) e
       Just (TFunc t t')
+    App e1 e2 -> do
+      t1' <- typecheck' ctxt e2
+      tf <- typecheck' ctxt e1
+      case tf of
+        TFunc t1 t2 -> if t1 == t1' then Just t2 else Nothing
+        _ -> Nothing
     Let x e1 e2 ->
-      typecheck' ctxt e1 >>= (\ t -> typecheck' (Map.insert x t ctxt) e)
+      typecheck' ctxt e1 >>= (\ t -> typecheck' (Map.insert x t ctxt) e2)
     Callcc e ->
       case typecheck' ctxt e of
         Just (TFunc (TFunc t TVoid) TVoid) -> Just t
