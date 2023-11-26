@@ -16,11 +16,11 @@ extra-source-files:
 library
   exposed-modules:
       Ast
-      Interp
       Lexer
       Parser
       Typing
   other-modules:
+      Interp
       Paths_CS703
   hs-source-dirs:
       src
@@ -34,4 +34,21 @@ library
     , base
     , bytestring
     , containers
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_CS703
+  hs-source-dirs:
+      test
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -threaded
+  build-depends:
+      CS703
+    , base
+    , hspec >=2.0.0
+    , hspec-expectations-lifted
   default-language: Haskell2010

@@ -5,7 +5,8 @@ import Lexer as L
 import Ast
 }
 
-%name parse
+%name parseExpr Expr
+%name parseType Type
 %tokentype { L.Token }
 %error { parseError }
 
@@ -20,7 +21,8 @@ bLit            { L.BoolLit $$ }
 proj1           { L.Proj1 }
 proj2           { L.Proj2 }
 abort           { L.Abort }
-define          { L.Define }
+let             { L.Let }
+in              { L.In }
 callcc          { L.CallCC }
 lambda          { L.Lambda}
 Int             { L.Int }
@@ -32,10 +34,13 @@ Void            { L.Void }
 '.'             { L.Dot }
 ','             { L.Comma }
 ':'             { L.Colon }
+':='            { L.Coloneq }
 '\\'            { L.Slash }
 '('             { L.LParen }
 ')'             { L.RParen }
 arrow           { L.Arrow }
+lbrack          { L.LBrack }
+rbrack          { L.RBrack }
 
 %%
 
@@ -43,11 +48,11 @@ arrow           { L.Arrow }
 Type : Int { Ast.TInt }
      | Bool { Ast.TBool }
      | Void { Ast.TVoid }
-     | Type '+' Type { Ast.TSum $1 $3 }
      | Type '*' Type { Ast.TProd $1 $3 }
      | Type arrow Type { Ast.TFunc $1 $3 }
 
 Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
+     | let var ':=' Expr in Expr { Ast.Let $2 $4 $6 }
      | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
      | define var Expr { Ast.Define $2 $3 }
      | set var Expr    { Ast.Set $2 $3 }
@@ -62,11 +67,10 @@ Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
      | iLit { Ast.Const (Ast.ConstInt $1) }
      | bLit { Ast.Const (Ast.ConstBool $1) }
      | var { Ast.Var $1 }
+     | lbrack Type rbrack { Ast.Hole $2 }
      | '(' Expr ')' { $2 }
 
 {
-
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
-
 }

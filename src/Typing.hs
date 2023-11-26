@@ -30,10 +30,10 @@ typecheck ctxt e =
         Just (TProd t1 t2) -> Just t2
         _ -> Nothing
     Pair e1 e2 -> liftA2 TProd (typecheck ctxt e1) (typecheck ctxt e2)
-    Lambda v t e ->
-      typecheck (Map.insert v t ctxt) e
-    Let v t e1 e2 ->
-      typecheck ctxt (App (Lambda v t e2) e1)
+    Lambda x t e ->
+      typecheck (Map.insert x t ctxt) e
+    Let x e1 e2 ->
+      typecheck ctxt e1 >>= (\ t -> typecheck (Map.insert x t ctxt) e)
     Callcc e ->
       case typecheck ctxt e of
         Just (TFunc (TFunc t TVoid) TVoid) -> Just t
@@ -41,3 +41,4 @@ typecheck ctxt e =
     Abort e ->
       case typecheck ctxt e of
         Just TVoid -> error "unimplemented"
+    Hole t -> Just t

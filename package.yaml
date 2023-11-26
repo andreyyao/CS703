@@ -10,6 +10,11 @@ default-extensions:
 
 library:
   source-dirs: src
+  exposed-modules:
+  - Ast
+  - Lexer
+  - Parser
+  - Typing
   dependencies:
   - containers
   - array
@@ -18,3 +23,17 @@ library:
   build-tools:
   - alex
   - happy
+
+# Test suite
+tests:
+  test:
+    main: Spec.hs
+    source-dirs: test
+    dependencies:
+    - base
+    - hspec >=2.0.0
+    - hspec-expectations-lifted
+    - CS703
+    ghc-options:
+    - -Wall
+    - -threaded

@@ -1,3 +1,3 @@
-f = lambda x: Int.(fst x)
-g = lambda x: Int.(snd x)
+f = lambda x: Int * Int.(fst x)
+g = lambda x: Int * Int.(snd x)
 ((f (1,2)) + (snd (2,1)))
