@@ -325,3 +325,5 @@ cabal.project.local~
 .ghc.environment.*
 *~
 *#*#
+z3/
+scratch/
