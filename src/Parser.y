@@ -24,7 +24,7 @@ abort           { L.Abort }
 let             { L.Let }
 in              { L.In }
 callcc          { L.CallCC }
-lambda          { L.Lambda}
+lambda          { L.Lambda }
 Int             { L.Int }
 Bool            { L.Bool }
 Void            { L.Void }
@@ -35,7 +35,6 @@ Void            { L.Void }
 ','             { L.Comma }
 ':'             { L.Colon }
 ':='            { L.Coloneq }
-'\\'            { L.Slash }
 '('             { L.LParen }
 ')'             { L.RParen }
 arrow           { L.Arrow }
@@ -50,6 +49,7 @@ Type : Int { Ast.TInt }
      | Void { Ast.TVoid }
      | Type '*' Type { Ast.TProd $1 $3 }
      | Type arrow Type { Ast.TFunc $1 $3 }
+     | '(' Type ')' { $2 }
 
 Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
      | let var ':=' Expr in Expr { Ast.Let $2 $4 $6 }

@@ -31,6 +31,9 @@ tests:
     source-dirs: test
     dependencies:
     - base
+    - filepath
+    - directory
+    - text
     - hspec >=2.0.0
     - hspec-expectations-lifted
     - CS703
