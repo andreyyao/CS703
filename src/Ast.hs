@@ -52,8 +52,8 @@ instance Show Tipe where
     TInt -> "Int"
     TBool -> "Bool"
     TVoid -> "Void"
-    TProd x y -> atomize x ++ "*" ++ atomize y
-    TFunc x y -> atomize x ++ "->" ++ atomize y
+    TProd x y -> atomize x ++ " * " ++ atomize y
+    TFunc x y -> atomize x ++ " -> " ++ atomize y
     where
       atomize t' = case t' of
         TInt -> show t'

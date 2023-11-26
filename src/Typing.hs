@@ -34,8 +34,9 @@ typecheck' ctxt e =
         Just (TProd t1 t2) -> Just t2
         _ -> Nothing
     Pair e1 e2 -> liftA2 TProd (typecheck' ctxt e1) (typecheck' ctxt e2)
-    Lambda x t e ->
-      typecheck' (Map.insert x t ctxt) e
+    Lambda x t e -> do
+      t' <- typecheck' (Map.insert x t ctxt) e
+      Just (TFunc t t')
     Let x e1 e2 ->
       typecheck' ctxt e1 >>= (\ t -> typecheck' (Map.insert x t ctxt) e)
     Callcc e ->
