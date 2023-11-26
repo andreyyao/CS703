@@ -28,12 +28,12 @@ tokens :-
   "."                            { \s -> Dot }
   ","                            { \s -> Comma }
   ":"                            { \s -> Colon }
-  "\\"                           { \s -> Slash }
   "("                            { \s -> LParen }
   ")"                            { \s -> RParen }
   "+"                            { \s -> Plus }
   "-"                            { \s -> Minus }
   "*"                            { \s -> Times }
+  "->"                           { \s -> Arrow }
   ":="                           { \s -> Coloneq }
   "{|"                           { \s -> LBrack }
   "|}"                           { \s -> RBrack }
