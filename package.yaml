@@ -8,6 +8,17 @@ extra-source-files:
 default-extensions:
 - OverloadedStrings
 
+dependencies:
+  - containers
+  - array
+  - base
+  - bytestring
+
+executables:
+  CS703:
+    main: Main.hs
+    source-dirs: src
+
 library:
   source-dirs: src
   exposed-modules:
@@ -15,11 +26,6 @@ library:
   - Lexer
   - Parser
   - Typing
-  dependencies:
-  - containers
-  - array
-  - base
-  - bytestring
   build-tools:
   - alex
   - happy

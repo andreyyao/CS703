@@ -21,6 +21,8 @@ library
       Typing
   other-modules:
       Interp
+      Main
+      Prover
       Paths_CS703
   hs-source-dirs:
       src
@@ -29,6 +31,27 @@ library
   build-tools:
       alex
     , happy
+  build-depends:
+      array
+    , base
+    , bytestring
+    , containers
+  default-language: Haskell2010
+
+executable CS703
+  main-is: Main.hs
+  other-modules:
+      Ast
+      Interp
+      Lexer
+      Parser
+      Prover
+      Typing
+      Paths_CS703
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings
   build-depends:
       array
     , base
@@ -48,7 +71,10 @@ test-suite test
   ghc-options: -Wall -threaded
   build-depends:
       CS703
+    , array
     , base
+    , bytestring
+    , containers
     , directory
     , filepath
     , hspec >=2.0.0

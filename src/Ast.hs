@@ -27,7 +27,7 @@ data Tipe
   | TVoid -- The "false" type, with no elements
   | TBool
   | TInt
-  deriving (Eq)
+  deriving (Eq, Ord)
 
 wrap :: [Char] -> [Char]
 wrap s = "(" ++ s ++ ")"
