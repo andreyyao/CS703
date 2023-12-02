@@ -13,6 +13,7 @@ dependencies:
   - array
   - base
   - bytestring
+  - gdp
 
 executables:
   CS703:
