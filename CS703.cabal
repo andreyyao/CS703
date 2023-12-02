@@ -22,7 +22,6 @@ library
       Logic
   other-modules:
       Interp
-      Main
       Prover
       Paths_CS703
   hs-source-dirs:
@@ -41,17 +40,8 @@ library
 
 executable CS703
   main-is: Main.hs
-  other-modules:
-      Ast
-      Interp
-      Lexer
-      Logic
-      Parser
-      Prover
-      Typing
-      Paths_CS703
   hs-source-dirs:
-      src
+      app
   default-extensions:
       OverloadedStrings
   build-depends:
