@@ -2,7 +2,7 @@ module Prover where
 import Ast
 import Logic
 
-typeToProp :: Ast.Tipe -> Logic.Prop
+typeToProp :: Tipe -> Prop
 typeToProp t =
   case t of
     TInt -> Atom "Int"
@@ -12,7 +12,7 @@ typeToProp t =
     TProd t1 t2 -> Conj (typeToProp t1) (typeToProp t2)
     TVoid -> error "Nothing should have type TVoid"
 
-propToType :: Logic.Prop -> Ast.Tipe
+propToType :: Prop -> Tipe
 propToType p =
   case p of
     Neg p -> TFunc (propToType p) TVoid
@@ -22,3 +22,14 @@ propToType p =
       | s == "Int" -> TInt
       | s == "Bool" -> TBool
       | otherwise -> error "implement custom types"
+
+conc2Expr :: Conclusion -> Expr
+conc2Expr c = let (d, p) = c in
+  case d of
+    Axiom -> Var "dummy"
+    Unary r c1 ->
+      case r of
+        DoubleNegation -> Callcc (conc2Expr c1)
+    Logic.Binary r c1 c2 ->
+      case r of
+        ModusPonens -> App (conc2Expr c1) (conc2Expr c2)
