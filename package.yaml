@@ -16,11 +16,10 @@ dependencies:
 
 executables:
   CS703:
-    main: Main.hs
+    main-is: Main.hs
     source-dirs: app
-    when:
-    - condition: false
-      other-modules: Paths_CS703
+    build-depends:
+    - CS703
 
 library:
   source-dirs: src

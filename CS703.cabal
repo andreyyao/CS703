@@ -40,12 +40,15 @@ library
 
 executable CS703
   main-is: Main.hs
+  other-modules:
+      Paths_CS703
   hs-source-dirs:
       app
   default-extensions:
       OverloadedStrings
   build-depends:
-      array
+      CS703
+    , array
     , base
     , bytestring
     , containers
