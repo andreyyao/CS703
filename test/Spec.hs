@@ -1,5 +1,3 @@
-module Main where
-
 import System.Directory (listDirectory)
 import System.FilePath
 import Data.Maybe

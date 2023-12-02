@@ -19,12 +19,12 @@ data Derivation
   | Unary Inference Conclusion -- One premise, e.g. Double negation elimination
   | Axiom
 
-data Conclusion = (Derivation, Prop)
+data Conclusion = Derivation * Prop
 -- For example, we start with an (Axiom, P) conclusion for every type T translated in the context translated to P
 
 -- This terminates when we found the "proposition" representing the type of the hole
-generateTree :: [Derivation] -> Prop -> [Derivation]
-generateTree derivations holeProp =
-  for d in derivation:
-  match d's conclusion
-  | (Neg (Neg P)) -> add (Unary DoubleNegation d P) to current list of derivations
+-- generateTree :: [Derivation] -> Prop -> [Derivation]
+-- generateTree derivations holeProp =
+--   for d in derivation:
+--   match d's conclusion
+--   | (Neg (Neg P)) -> add (Unary DoubleNegation d P) to current list of derivations
