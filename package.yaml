@@ -26,6 +26,7 @@ library:
   - Lexer
   - Parser
   - Typing
+  - Logic
   build-tools:
   - alex
   - happy
