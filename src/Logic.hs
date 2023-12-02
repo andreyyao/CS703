@@ -54,7 +54,7 @@ growForest :: Forest -> Forest
 growForest f =
   let unaryUpdates = M.foldl (\acc c -> unaryHelper c : acc) [] f in
   let binaryUpdates = M.foldl (\acc c -> foldl (\acc' c' -> binaryHelper c c' : acc') acc f) [] f in
-    -- inserts all the updates into f
+    -- inserts all the updates into f, but keep old values untouched if key already present
   foldl (\g c -> M.insertWith (\_ old -> old) (snd c) c g) f (concat unaryUpdates ++ binaryUpdates)
 
 -- `synthesisLoop fuel f` returns `Just c` when succesfully derived target proposition `p`.
@@ -63,4 +63,7 @@ synthesisLoop :: Int -> Forest -> Prop -> Maybe Conclusion
 synthesisLoop fuel f p =
   if fuel == 0
   then M.lookup p f
-  else synthesisLoop (fuel - 1) (growForest f) p
+  else let f' = growForest f in
+    case M.lookup p f' of
+    Just c -> Just c
+    Nothing -> synthesisLoop (fuel - 1) f' p
