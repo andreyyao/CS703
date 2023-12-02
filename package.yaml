@@ -14,12 +14,15 @@ dependencies:
   - base
   - bytestring
 
-executables:
-  CS703:
-    main-is: Main.hs
-    source-dirs: app
-    build-depends:
-    - CS703
+# executables:
+#   CS703:
+#     main-is: Main.hs
+#     source-dirs: app
+#     build-depends:
+#     - CS703
+#     when:
+#     - condition: false
+#       other-modules: Paths_wejden
 
 library:
   source-dirs: src
