@@ -36,6 +36,8 @@ library:
   build-tools:
   - alex
   - happy
+  ghc-options:
+  - -Wall
 
 # Test suite
 tests:

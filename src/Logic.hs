@@ -10,20 +10,23 @@ data Prop
 -- Example : Conj (Atom "Int") (Atom "Bool") is the type (Int * Bool)
 
 
--- This will just be the name of the inference rules
-data Inference
+-- Binary inference rule names
+data BinRule
   = ModusPonens
-  | DoubleNegation
   | AndIntro
+  deriving(Eq)
+
+-- Unary inference rule names
+data UnaRule
+  = DoubleNegation
   | AndElim1
   | AndElim2
   deriving(Eq)
-  -- | ...
 
 type Conclusion = (Derivation, Prop)
 data Derivation
-  = Binary Inference Conclusion Conclusion -- The two derivations are the two trees in the premise, and the Prop is the conclusion
-  | Unary Inference Conclusion -- One premise, e.g. Double negation elimination
+  = Binary BinRule Conclusion Conclusion -- The two derivations are the two trees in the premise, and the Prop is the conclusion
+  | Unary UnaRule Conclusion -- One premise, e.g. Double negation elimination
   | Axiom String -- The string stores the variable name
   deriving(Eq)
 
@@ -37,17 +40,17 @@ type Forest = M.Map Prop Conclusion
 
 -- `unaryHelper` can give one, two, or no derivation trees for any given derivation
 unaryHelper :: Conclusion -> [Conclusion]
-unaryHelper c = let (d, p) = c in
-  case p of
+unaryHelper c =
+  case snd c of
     (Neg (Neg p)) -> [(Unary DoubleNegation c, p)]
     (Conj p1 p2) -> [(Unary AndElim1 c, p1), (Unary AndElim2 c, p2)]
     _ -> []
 
 binaryHelper :: Conclusion -> Conclusion -> Conclusion
-binaryHelper c1 c2 = let (d1, p1) = c1 in let (d2, p2) = c2 in
-  case (p1, p2) of
-    (Impl q1 q2, q1') | q1 == q1' -> (Binary ModusPonens c1 c2, q2)
-    _ -> (Binary AndIntro c1 c2, Conj p1 p2)
+binaryHelper c1 c2 =
+  case (snd c1, snd c2) of
+    (Impl p1 p2, p1') | p1 == p1' -> (Binary ModusPonens c1 c2, p2)
+    (p1, p2) -> (Binary AndIntro c1 c2, Conj p1 p2)
 
 -- This function grows the forest once
 growForest :: Forest -> Forest

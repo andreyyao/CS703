@@ -11,8 +11,6 @@ data Expr
   | Projl Expr
   | Projr Expr
   | Pair Expr Expr
-  | Define String Expr
-  | Set String Expr
   | Lambda String Tipe Expr
   | App Expr Expr
   | Let String Expr Expr
@@ -27,40 +25,46 @@ data Tipe
   | TVoid -- The "false" type, with no elements
   | TBool
   | TInt
+  | TCustom String
   deriving (Eq, Ord)
 
-wrap :: [Char] -> [Char]
+wrap :: String -> String
 wrap s = "(" ++ s ++ ")"
 
 instance Show Expr where
-  show e = case e of
+  show expr = case expr of
     Var x -> x
     Const c -> show c
-    Binary e1 op e2 -> wrap (show e1 ++ " " ++ show op ++ " " ++ show e2)
-    Projl e -> "fst" ++ wrap (show e)
-    Projr e -> "snd" ++ wrap (show e)
-    Pair e1 e2 -> "(" ++ show e1 ++ "," ++ show e2 ++ ")"
+    Binary e1 op e2 -> atomize e1 ++ " " ++ show op ++ " " ++ atomize e2
+    Projl e -> "fst " ++ atomize e
+    Projr e -> "snd " ++ atomize e
+    Pair e1 e2 -> "(" ++ atomize e1 ++ ", " ++ atomize e2 ++ ")"
     Lambda x t e -> "lambda " ++ x ++ " : " ++ show t ++ ". " ++ show e
-    App e1 e2 -> wrap (show e1) ++ wrap (show e2)
+    App e1 e2 -> atomize e1 ++ " " ++ atomize e2
     Let x e1 e2 -> "let " ++ x ++ " := " ++ show e1 ++ " in " ++ show e2
-    Callcc e -> "call/cc" ++ wrap (show e)
-    Abort e -> "abort (" ++ show e ++ ")"
+    Callcc e -> "call/cc" ++ atomize e
+    Abort e -> "abort " ++ atomize e ++ ")"
     Hole t -> "{|" ++ show t ++ "|}"
+    where
+      atomize e = case e of
+        Var _ -> show e
+        Const _ -> show e
+        Hole _ -> show e
+        _ -> wrap (show e)
 
 instance Show Tipe where
-  show t = case t of
+  show tipe = case tipe of
     TInt -> "Int"
     TBool -> "Bool"
     TVoid -> "Void"
+    TCustom s -> s
     TProd x y -> atomize x ++ " * " ++ atomize y
     TFunc x y -> atomize x ++ " -> " ++ atomize y
     where
-      atomize t' = case t' of
-        TInt -> show t'
-        TBool -> show t'
-        TVoid -> show t'
-        TProd _ _ -> "(" ++ show t' ++ ")"
-        TFunc _ _ -> "(" ++ show t' ++ ")"
+      atomize t = case t of
+        TProd _ _ -> wrap (show t)
+        TFunc _ _ -> wrap (show t)
+        _ -> show t
 
 instance Show Constant where
   show c = case c of

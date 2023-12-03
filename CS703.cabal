@@ -28,6 +28,7 @@ library
       src
   default-extensions:
       OverloadedStrings
+  ghc-options: -Wall
   build-tools:
       alex
     , happy

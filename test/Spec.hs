@@ -1,7 +1,5 @@
 import System.Directory (listDirectory)
 import System.FilePath
-import Data.Maybe
-import Control.Monad
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 
@@ -9,7 +7,7 @@ import Typing
 import Parser(parseType, parseExpr)
 import Lexer(scanMany)
 import Ast(Tipe)
-import Logic(Prop(..),Inference(..),Derivation(..), Conclusion)
+import Logic()
 import Synthesizer(synthesize)
 
 checkSourceCode :: String -> IO ()

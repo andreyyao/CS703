@@ -14,8 +14,8 @@ typecheck = typecheck' Map.empty
 
 -- typecheck c e returns `Just t` if `e` type checks to `t` in context `c`, and `Nothing` otherwise
 typecheck' :: Context -> Expr -> Maybe Tipe
-typecheck' ctxt e =
-  case e of
+typecheck' ctxt expr =
+  case expr of
     Var v -> Map.lookup v ctxt
     Const c ->
       case c of
@@ -27,11 +27,11 @@ typecheck' ctxt e =
         _ -> Nothing
     Projl e ->
       case typecheck' ctxt e of
-        Just (TProd t1 t2) -> Just t1
+        Just (TProd t1 _) -> Just t1
         _ -> Nothing
     Projr e ->
       case typecheck' ctxt e of
-        Just (TProd t1 t2) -> Just t2
+        Just (TProd _ t2) -> Just t2
         _ -> Nothing
     Pair e1 e2 -> liftA2 TProd (typecheck' ctxt e1) (typecheck' ctxt e2)
     Lambda x t e -> do
@@ -52,4 +52,5 @@ typecheck' ctxt e =
     Abort e ->
       case typecheck' ctxt e of
         Just TVoid -> error "unimplemented"
+        _ -> Nothing
     Hole t -> Just t
