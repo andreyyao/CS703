@@ -73,13 +73,14 @@ synth' ctxt expr =
     Pair e1 e2 ->
       case (synth' ctxt e1, synth' ctxt e2) of
         (Just (t1, e1'), Just (t2, e2')) -> Just (TProd t1 t2, Pair e1' e2')
-    Lambda x t e ->
-      fmap (\p -> (fst p, Lambda x t (snd p))) (synth' (Map.insert x t ctxt) e)
+    Lambda x t e -> do
+      (t', e') <- synth' (Map.insert x t ctxt) e
+      Just (TFunc t t', Lambda x t e')
     App e1 e2 -> do
-      (t1, e1') <- synth' ctxt e2
-      (tf, e2') <- synth' ctxt e1
+      (tf, f) <- synth' ctxt e1
+      (t1, e1) <- synth' ctxt e2
       case tf of
-        TFunc t1' t2 -> if t1 == t1' then Just (t2, App e1' e2') else Nothing
+        TFunc t1' t2 | t1 == t1' -> Just (t2, App f e1)
         _ -> Nothing
     Let x e1 e2 -> do
       (t1', e1') <- synth' ctxt e1
