@@ -1,4 +1,4 @@
-module Prover where
+module Synthesizer(synthesize) where
 import Ast
 import Logic
 import Typing
@@ -17,7 +17,7 @@ type2Prop t =
     TVoid -> error "Nothing should have type TVoid"
 
 ctxt2Forest :: Context -> Forest
-ctxt2Forest = error "TODO implement"
+ctxt2Forest = Map.foldrWithKey (\x t acc -> let p = type2Prop t in Map.insert p (Axiom x, p) acc) Map.empty
 
 prop2Type :: Prop -> Tipe
 prop2Type p =
