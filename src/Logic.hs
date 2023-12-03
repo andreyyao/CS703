@@ -24,7 +24,7 @@ type Conclusion = (Derivation, Prop)
 data Derivation
   = Binary Inference Conclusion Conclusion -- The two derivations are the two trees in the premise, and the Prop is the conclusion
   | Unary Inference Conclusion -- One premise, e.g. Double negation elimination
-  | Axiom 
+  | Axiom String -- The string stores the variable name
   deriving(Eq)
 
 -- For example, we start with an (Axiom, P) conclusion for every type T translated in the context translated to P

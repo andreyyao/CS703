@@ -16,6 +16,9 @@ type2Prop t =
     TProd t1 t2 -> Conj (type2Prop t1) (type2Prop t2)
     TVoid -> error "Nothing should have type TVoid"
 
+ctxt2Forest :: Context -> Forest
+ctxt2Forest = error "TODO implement"
+
 prop2Type :: Prop -> Tipe
 prop2Type p =
   case p of
@@ -30,7 +33,7 @@ prop2Type p =
 conc2Expr :: Conclusion -> Expr
 conc2Expr c = let (d, p) = c in
   case d of
-    Axiom -> Var "dummy"
+    Axiom v -> Var v
     Unary r c1 ->
       let e = conc2Expr c1 in
       case r of
@@ -88,4 +91,9 @@ synth' ctxt expr =
     Abort e ->
       case synth' ctxt e of
         Just (TVoid, e') -> error "unimplemented"
-    Hole t -> error "Unimplemented"
+    Hole t ->
+      let p = type2Prop t in
+      let f = ctxt2Forest ctxt in
+      case synthesisLoop 10 f p of
+        Just c -> Just (t, conc2Expr c)
+        Nothing -> Nothing
