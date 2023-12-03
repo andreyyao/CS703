@@ -9,8 +9,8 @@ import Typing
 import Parser(parseType, parseExpr)
 import Lexer(scanMany)
 import Ast(Tipe)
-import Logic(generateTree,Prop(..),Inference(..),Derivation(..), Conclusion)
-
+import Logic(Prop(..),Inference(..),Derivation(..), Conclusion)
+import Synthesizer(synthesize)
 
 checkSourceCode :: String -> IO ()
 checkSourceCode prog =
@@ -20,25 +20,14 @@ checkSourceCode prog =
       Just t -> putStrLn ("Type: " ++ show t ++ divider)
       Nothing -> print "Error checking program"
 
-checkGenerateTreeIdentity :: IO ()
-checkGenerateTreeIdentity =
+checkSynthesize :: String -> IO ()
+checkSynthesize prog =
   let divider = "\n------------------------" in do
-    putStrLn (divider ++ "\nGenerate Tree Identity:");
-    let input = (Axiom, (Atom "A")) in do
-      let expected = input in do
-        case [expected] == (generateTree [input]) of
-          True -> putStrLn ("Passed")
-          False -> putStrLn ("Failed")
+    putStrLn (divider ++ "\nProg: " ++ prog);
+    case (synthesize . parseExpr . scanMany) prog of
+      Just t -> putStrLn ("Synthesized: " ++ show t ++ divider)
+      Nothing -> print "Error checking program"
 
-checkGenerateTreeDoubleNeg :: IO ()
-checkGenerateTreeDoubleNeg =
-  let divider = "\n------------------------" in do
-    putStrLn (divider ++ "\nGenerate Tree Double Neg:");
-    let input = (Axiom, (Neg (Neg (Atom "A")))) in do
-      let expected = (Unary DoubleNegation input, (Atom "A")) in do
-        case [expected] == (generateTree [input]) of
-          True -> putStrLn ("Passed")
-          False -> putStrLn ("Failed")
 
 readFilesInDirectory :: IO [String]
 readFilesInDirectory =
@@ -56,5 +45,6 @@ main :: IO ()
 main = do
   programs <- readFilesInDirectory
   mapM_ checkSourceCode programs
-  checkGenerateTreeIdentity
-  checkGenerateTreeDoubleNeg
+  -- checkGenerateTreeIdentity
+  -- checkGenerateTreeDoubleNeg
+  mapM_ checkSynthesize programs

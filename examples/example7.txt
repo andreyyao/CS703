@@ -1,0 +1,2 @@
+let a := lambda z:Bool.(1+1) in
+    (lambda f: Bool->Int*Int.(lambda g: Int->Int*Int.{|Int*Int|}))
