@@ -1,5 +1,6 @@
 import System.Directory (listDirectory)
 import System.FilePath
+import Data.Maybe
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 
@@ -17,7 +18,7 @@ checkSourceCode prog =
     putStrLn (divider ++ "\nProg: " ++ prog);
     case (typecheck . parseExpr . scanMany) prog of
       Just t -> putStrLn ("Type: " ++ show t ++ divider)
-      Nothing -> print "Error checking program"
+      Nothing -> error "Error checking program"
 
 checkSynthesize :: String -> IO ()
 checkSynthesize prog =
@@ -31,7 +32,7 @@ checkSynthInterp :: String -> IO ()
 checkSynthInterp prog =
   let divider = "\n------------------------" in do
     putStrLn (divider ++ "\nProg: " ++ prog);
-    let v = (interp . parseExpr . scanMany) prog in
+    let v = (interp . fromJust . synthesize . parseExpr . scanMany) prog in
       putStrLn ("Interpreted: " ++ show v ++ divider)
 
 

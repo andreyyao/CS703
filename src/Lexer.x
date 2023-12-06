@@ -16,7 +16,8 @@ tokens :-
   Void                           { \s -> Void }
   callcc                         { \s -> CallCC }
   abort                          { \s -> Abort }
-  lambda                         { \s -> Lambda }
+  "lambda"                       { \s -> Lambda }
+  "λ"                            { \s -> Lambda }
   let                            { \s -> Let }
   in                             { \s -> In }
   fst                            { \s -> Proj1 }

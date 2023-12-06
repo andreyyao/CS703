@@ -38,8 +38,8 @@ instance Show Expr where
     Binary e1 op e2 -> atomize e1 ++ " " ++ show op ++ " " ++ atomize e2
     Projl e -> "fst " ++ atomize e
     Projr e -> "snd " ++ atomize e
-    Pair e1 e2 -> "(" ++ atomize e1 ++ ", " ++ atomize e2 ++ ")"
-    Lambda x t e -> "lambda " ++ x ++ " : " ++ show t ++ ". " ++ show e
+    Pair e1 e2 -> "(" ++ show e1 ++ ", " ++ show e2 ++ ")"
+    Lambda x t e -> "λ " ++ x ++ " : " ++ show t ++ ". " ++ show e
     App e1 e2 -> atomize e1 ++ " " ++ atomize e2
     Let x e1 e2 -> "let " ++ x ++ " := " ++ show e1 ++ " in " ++ show e2
     Callcc e -> "call/cc" ++ atomize e
@@ -50,6 +50,7 @@ instance Show Expr where
         Var _ -> show e
         Const _ -> show e
         Hole _ -> show e
+        Pair _ _ -> show e
         _ -> wrap (show e)
 
 instance Show Tipe where

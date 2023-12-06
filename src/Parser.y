@@ -11,8 +11,11 @@ import Ast
 %error { parseError }
 
 %left '+' '-'
-%left '*'
 %right arrow
+%left '*'
+
+%nonassoc lambda let '('
+%nonassoc APP
 
 %token
 var             { L.Var $$ }
@@ -61,7 +64,7 @@ Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
      | abort Expr { Ast.Abort $2 }
      | proj1 Expr { Ast.Projl $2 }
      | proj2 Expr { Ast.Projr $2 }
-     | Expr Expr { Ast.App $1 $2 }
+     | Expr Expr %prec APP { Ast.App $1 $2 }
      | iLit { Ast.Const (Ast.ConstInt $1) }
      | bLit { Ast.Const (Ast.ConstBool $1) }
      | var { Ast.Var $1 }
