@@ -1,1 +1,1 @@
-1
+let b := true in if {| Bool |} then 100 else 42

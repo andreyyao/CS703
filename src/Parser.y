@@ -14,7 +14,7 @@ import Ast
 %right arrow
 %left '*'
 
-%nonassoc lambda let '('
+%nonassoc lambda let '(' if
 %nonassoc APP
 
 %token
@@ -27,6 +27,9 @@ abort           { L.Abort }
 let             { L.Let }
 in              { L.In }
 callcc          { L.CallCC }
+if              { L.If }
+then            { L.Then }
+else            { L.Else }
 lambda          { L.Lambda }
 Int             { L.Int }
 Bool            { L.Bool }
@@ -56,6 +59,7 @@ Type : Int { Ast.TInt }
 
 Expr : lambda var ':' Type '.' Expr { Ast.Lambda $2 $4 $6 }
      | let var ass Expr in Expr { Ast.Let $2 $4 $6 }
+     | if Expr then Expr else Expr { Ast.Branch $2 $4 $6 }
      | '(' Expr ',' Expr ')' { Ast.Pair $2 $4 }
      | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
      | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }

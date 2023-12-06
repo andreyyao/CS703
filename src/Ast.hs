@@ -12,6 +12,7 @@ data Expr
   | Projr Expr
   | Pair Expr Expr
   | Lambda String Tipe Expr
+  | Branch Expr Expr Expr
   | App Expr Expr
   | Let String Expr Expr
   | Callcc Expr
@@ -39,6 +40,7 @@ instance Show Expr where
     Projl e -> "fst " ++ atomize e
     Projr e -> "snd " ++ atomize e
     Pair e1 e2 -> "(" ++ show e1 ++ ", " ++ show e2 ++ ")"
+    Branch b e1 e2 -> "if " ++ show b ++ " then " ++ atomize e1 ++ " else " ++ atomize e2
     Lambda x t e -> "λ " ++ x ++ " : " ++ show t ++ ". " ++ show e
     App e1 e2 -> atomize e1 ++ " " ++ atomize e2
     Let x e1 e2 -> "let " ++ x ++ " := " ++ show e1 ++ " in " ++ show e2
@@ -69,7 +71,7 @@ instance Show Tipe where
 
 instance Show Constant where
   show c = case c of
-    ConstBool b -> show b
+    ConstBool b -> if b then "true" else "false"
     ConstInt i -> show i
 
 instance Show Binop where

@@ -22,6 +22,9 @@ tokens :-
   in                             { \s -> In }
   fst                            { \s -> Proj1 }
   snd                            { \s -> Proj2 }
+  if                             { \s -> If }
+  then                           { \s -> Then }
+  else                           { \s -> Else }
   $digit+                        { \s -> IntLit (read s) }
   "true"                         { \s -> BoolLit True}
   "false"                        { \s -> BoolLit False}
@@ -46,11 +49,14 @@ tokens :-
 data Token
   = Proj1
   | Proj2
-  | CallCC
   | Let
   | In
+  | If
+  | Then
+  | Else
   | Lambda
   | Abort
+  | CallCC
   | Var String
   | IntLit Int
   | BoolLit Bool

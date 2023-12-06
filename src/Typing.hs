@@ -34,6 +34,13 @@ typecheck' ctxt expr =
         Just (TProd _ t2) -> Just t2
         _ -> Nothing
     Pair e1 e2 -> liftA2 TProd (typecheck' ctxt e1) (typecheck' ctxt e2)
+    Branch b e1 e2 -> do
+      tb <- typecheck' ctxt b
+      t1 <- typecheck' ctxt e1
+      t2 <- typecheck' ctxt e2
+      case tb of
+        TBool | t1 == t2 -> Just t1
+        _ -> Nothing
     Lambda x t e -> do
       t' <- typecheck' (Map.insert x t ctxt) e
       Just (TFunc t t')

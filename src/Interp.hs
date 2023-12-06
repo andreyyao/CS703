@@ -18,7 +18,7 @@ type Kont = Value -> Env -> Value
 eval :: Expr -> Env -> Kont -> Value
 eval expr env k =
   case expr of
-    Const c -> Konstant c
+    Const c -> k (Konstant c) env
     Var x ->
       case Map.lookup x env of
         Just v -> k v env
@@ -38,6 +38,9 @@ eval expr env k =
       VPair _ v2 -> v2
       _ -> error "hehe"
     Pair e1 e2 -> eval e1 env $ \v1 env' -> eval e2 env' $ \v2 env'' -> VPair v1 v2
+    Branch b e1 e2 -> eval b env $ \v env' -> case v of
+      Konstant (ConstBool cond) -> if cond then eval e1 env k else eval e2 env k
+      _ -> error "hehe"
     Lambda x t e -> k (Closure (x, t, e) env) env
     App e1 e2 -> eval e1 env $ \v1 env' -> eval e2 env' $ \v2 env'' -> case v1 of
       Closure (x, _, e) env''' -> eval e (Map.insert x v2 env''') k
@@ -47,11 +50,11 @@ eval expr env k =
     Abort e -> eval e env const
     Hole _ -> error "Encountered hole during interpretation"
 
+interp :: Expr -> Value
+interp expr = eval expr Map.empty const
+
 instance Show Value where
   show val = case val of
     Closure (x, t, e) _ -> "closure<<" ++ show (Lambda x t e) ++ ">>"
     Konstant c -> show c
     VPair v1 v2 -> "(" ++ show v1 ++ ", " ++ show v2 ++ ")"
-
-interp :: Expr -> Value
-interp expr = eval expr Map.empty const

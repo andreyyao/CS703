@@ -74,6 +74,10 @@ synth' ctxt expr =
       case (synth' ctxt e1, synth' ctxt e2) of
         (Just (t1, e1'), Just (t2, e2')) -> Just (TProd t1 t2, Pair e1' e2')
         _ -> Nothing
+    Branch b e1 e2 ->
+      case (synth' ctxt b, synth' ctxt e1, synth' ctxt e2) of
+        (Just (TBool, b'), Just (t1, e1'), Just (t2, e2')) | t1 == t2 -> Just (t1, Branch b' e1' e2')
+        _ -> Nothing
     Lambda x t e -> do
       (t', e') <- synth' (Map.insert x t ctxt) e
       Just (TFunc t t', Lambda x t e')
