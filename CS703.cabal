@@ -20,9 +20,9 @@ library
       Parser
       Typing
       Logic
+      Interp
       Synthesizer
   other-modules:
-      Interp
       Paths_CS703
   hs-source-dirs:
       src

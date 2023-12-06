@@ -32,6 +32,7 @@ library:
   - Parser
   - Typing
   - Logic
+  - Interp
   - Synthesizer
   build-tools:
   - alex
