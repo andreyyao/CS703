@@ -32,12 +32,12 @@ eval expr env k =
         k (Konstant $ ConstInt res) env''
       _ -> error "Invalid addition"
     Projl e -> eval e env $ \v env' -> case v of
-      VPair v1 _ -> v1
+      VPair v1 _ -> k v1 env'
       _ -> error "hehe"
     Projr e -> eval e env $ \v env' -> case v of
-      VPair _ v2 -> v2
+      VPair _ v2 -> k v2 env'
       _ -> error "hehe"
-    Pair e1 e2 -> eval e1 env $ \v1 env' -> eval e2 env' $ \v2 env'' -> VPair v1 v2
+    Pair e1 e2 -> eval e1 env $ \v1 env' -> eval e2 env' $ \v2 env'' -> k (VPair v1 v2) env''
     Branch b e1 e2 -> eval b env $ \v env' -> case v of
       Konstant (ConstBool cond) -> if cond then eval e1 env k else eval e2 env k
       _ -> error "hehe"
