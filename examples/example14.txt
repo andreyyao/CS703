@@ -1,0 +1,1 @@
+let a:= true in lambda f: Bool->Int.(lambda g:(Bool*(Bool*(Bool*(Bool*Bool))))->Int.if {|Bool|} then 1 else 0)

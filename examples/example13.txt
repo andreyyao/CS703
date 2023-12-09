@@ -1,0 +1,1 @@
+lambda g:(Bool*(Bool*(Bool*(Bool*Bool))))->Int.if {|Bool|} then 1 else 0

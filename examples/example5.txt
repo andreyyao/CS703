@@ -1,1 +1,1 @@
-(lambda f: Bool->Int.(lambda g: Int->Bool.(lambda x: Bool.(g {|Int|})))) (lambda b: Bool. 42) (lambda i : Int. true)
+(lambda f: Bool->Int.(lambda g: Int->Bool.(lambda x: Bool.(g {|Int|}))))

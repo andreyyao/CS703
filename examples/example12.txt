@@ -1,0 +1,1 @@
+(lambda f:Int->Bool.(lambda g: (Int*(Int*Int)).if {|Bool|} then (fst (snd g)) else (snd (snd g))))

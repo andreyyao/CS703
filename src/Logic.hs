@@ -64,7 +64,7 @@ growForest f =
 -- It returns `Nothing` if the fuel ran out and we didn't find anything
 synthesisLoop :: Int -> Forest -> Prop -> Maybe Conclusion
 synthesisLoop fuel f p =
-  if fuel == 0
+  if fuel <= 0
   then M.lookup p f
   else let f' = growForest f in
     case M.lookup p f' of

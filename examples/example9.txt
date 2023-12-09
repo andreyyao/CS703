@@ -1,0 +1,1 @@
+(lambda f1:Bool->Int.(lambda f2:Int->Bool.(lambda f3:Bool->Bool.(lambda f4:Int->Bool.(lambda f5:Bool.{|Int|})))))

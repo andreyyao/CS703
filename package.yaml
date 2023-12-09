@@ -14,15 +14,25 @@ dependencies:
   - base
   - bytestring
 
-# executables:
-#   CS703:
-#     main-is: Main.hs
-#     source-dirs: app
-#     build-depends:
-#     - CS703
-#     when:
-#     - condition: false
-#       other-modules: Paths_wejden
+executables:
+  main:
+    main-is: Main.hs
+    source-dirs: app
+    dependencies:
+    - base
+    - ghc
+    - CS703
+  debug:
+    main: Debug.hs
+    source-dirs: scripts
+    dependencies:
+    - base
+    - filepath
+    - directory
+    - text
+    - hspec >=2.0.0
+    - hspec-expectations-lifted
+    - CS703
 
 library:
   source-dirs: src
