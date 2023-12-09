@@ -41,7 +41,7 @@ instance Show Expr where
     Projr e -> "snd " ++ atomize e
     Pair e1 e2 -> "(" ++ show e1 ++ ", " ++ show e2 ++ ")"
     Branch b e1 e2 -> "if " ++ show b ++ " then " ++ atomize e1 ++ " else " ++ atomize e2
-    Lambda x t e -> "λ " ++ x ++ " : " ++ show t ++ ". " ++ show e
+    Lambda x t e -> "lambda " ++ x ++ " : " ++ show t ++ ". " ++ show e
     App e1 e2 -> atomize e1 ++ " " ++ atomize e2
     Let x e1 e2 -> "let " ++ x ++ " := " ++ show e1 ++ " in " ++ show e2
     Callcc e -> "call/cc" ++ atomize e
