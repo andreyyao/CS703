@@ -13,6 +13,7 @@ data Prop
 -- Binary inference rule names
 data BinRule
   = ModusPonens
+  | Composition
   | AndIntro
   deriving(Eq)
 
@@ -50,6 +51,7 @@ binaryHelper :: Conclusion -> Conclusion -> Conclusion
 binaryHelper c1 c2 =
   case (snd c1, snd c2) of
     (Impl p1 p2, p1') | p1 == p1' -> (Binary ModusPonens c1 c2, p2)
+    (Impl p1 p2, Impl p2' p3') | p2 == p2' -> (Binary Composition c1 c2, Impl p1 p3')
     (p1, p2) -> (Binary AndIntro c1 c2, Conj p1 p2)
 
 -- This function grows the forest once

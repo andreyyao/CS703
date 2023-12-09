@@ -1,5 +1,6 @@
 {
 module Lexer (scanMany, Token(..)) where
+import Debug.Trace
 }
 
 %wrapper "basic"
@@ -11,36 +12,36 @@ tokens :-
 
   $white+                        ;
   "--".*                         ;
-  Int                            { \s -> Int }
-  Bool                           { \s -> Bool }
-  Void                           { \s -> Void }
-  callcc                         { \s -> CallCC }
-  abort                          { \s -> Abort }
-  "lambda"                       { \s -> Lambda }
-  "λ"                            { \s -> Lambda }
-  let                            { \s -> Let }
-  in                             { \s -> In }
-  fst                            { \s -> Proj1 }
-  snd                            { \s -> Proj2 }
-  if                             { \s -> If }
-  then                           { \s -> Then }
-  else                           { \s -> Else }
+  Int                            { \_ -> Int }
+  Bool                           { \_ -> Bool }
+  Void                           { \_ -> Void }
+  callcc                         { \_ -> CallCC }
+  abort                          { \_ -> Abort }
+  "lambda"                       { \_ -> Lambda }
+  "λ"                            { \_ -> Lambda }
+  let                            { \_ -> Let }
+  in                             { \_ -> In }
+  fst                            { \_ -> Proj1 }
+  snd                            { \_ -> Proj2 }
+  if                             { \_ -> If }
+  then                           { \_ -> Then }
+  else                           { \_ -> Else }
   $digit+                        { \s -> IntLit (read s) }
-  "true"                         { \s -> BoolLit True}
-  "false"                        { \s -> BoolLit False}
+  "true"                         { \_ -> BoolLit True}
+  "false"                        { \_ -> BoolLit False}
   $alpha [$alpha $digit \_ \']*  { \s -> Var s }
-  "."                            { \s -> Dot }
-  ","                            { \s -> Comma }
-  ":"                            { \s -> Colon }
-  "("                            { \s -> LParen }
-  ")"                            { \s -> RParen }
-  "+"                            { \s -> Plus }
-  "-"                            { \s -> Minus }
-  "*"                            { \s -> Times }
-  "->"                           { \s -> Arrow }
-  ":="                           { \s -> Coloneq }
-  "{|"                           { \s -> LBrack }
-  "|}"                           { \s -> RBrack }
+  "."                            { \_ -> Dot }
+  ","                            { \_ -> Comma }
+  ":"                            { \_ -> Colon }
+  "("                            { \_ -> LParen }
+  ")"                            { \_ -> RParen }
+  "+"                            { \_ -> Plus }
+  "-"                            { \_ -> Minus }
+  "*"                            { \_ -> Times }
+  "->"                           { \_ -> Arrow }
+  ":="                           { \_ -> Coloneq }
+  "{|"                           { \_ -> LBrack }
+  "|}"                           { \_ -> RBrack }
 
 {
 -- Each action has type :: String -> Token
@@ -79,6 +80,5 @@ data Token
   deriving (Eq, Show)
 
 scanMany :: String -> [Token]
-scanMany input = do
-  alexScanTokens input
+scanMany = alexScanTokens
 }

@@ -16,22 +16,19 @@ type2Prop t =
     TProd t1 t2 -> Conj (type2Prop t1) (type2Prop t2)
     TVoid -> error "Nothing should have type TVoid"
 
+prop2Type :: Prop -> Tipe
+prop2Type p = case p of
+  Atom s ->
+    if s == "Int" then TInt else (if s == "Bool" then TBool else error "Hmm")
+  Impl p1 p2 -> TFunc (prop2Type p1) (prop2Type p2)
+  Conj p1 p2 -> TProd (prop2Type p1) (prop2Type p2)
+  Neg p -> TFunc (prop2Type p) TVoid
+
 ctxt2Forest :: Context -> Forest
 ctxt2Forest = Map.foldrWithKey (\x t acc -> let p = type2Prop t in Map.insert p (Axiom x, p) acc) Map.empty
 
--- prop2Type :: Prop -> Tipe
--- prop2Type prop =
---   case prop of
---     Neg p -> TFunc (prop2Type p) TVoid
---     Conj p1 p2 -> TProd (prop2Type p1) (prop2Type p2)
---     Impl p1 p2 -> TFunc (prop2Type p1) (prop2Type p2)
---     Atom s
---       | s == "Int" -> TInt
---       | s == "Bool" -> TBool
---       | otherwise -> TCustom s
-
 conc2Expr :: Conclusion -> Expr
-conc2Expr c = let (d, _) = c in
+conc2Expr c = let (d, p) = c in
   case d of
     Axiom v -> Var v
     Unary r c1 ->
@@ -44,6 +41,7 @@ conc2Expr c = let (d, _) = c in
       let (e1, e2) = (conc2Expr c1, conc2Expr c2) in
       case r of
         ModusPonens -> App e1 e2
+        Composition -> Lambda "tmp" (prop2Type p) (App e2 (App e1 (Var "tmp")))
         AndIntro -> Pair e1 e2
 
 -- synthesize e returns `Just e'` where `e'` is `e` with holes replace, and it returns `Nothing` if synthesis failed.
