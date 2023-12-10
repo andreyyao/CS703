@@ -22,7 +22,7 @@ prop2Type p = case p of
     if s == "Int" then TInt else (if s == "Bool" then TBool else error "Hmm")
   Impl p1 p2 -> TFunc (prop2Type p1) (prop2Type p2)
   Conj p1 p2 -> TProd (prop2Type p1) (prop2Type p2)
-  Neg p -> TFunc (prop2Type p) TVoid
+  Neg p' -> TFunc (prop2Type p') TVoid
 
 ctxt2Forest :: Context -> Forest
 ctxt2Forest = Map.foldrWithKey (\x t acc -> let p = type2Prop t in Map.insert p (Axiom x, p) acc) Map.empty
@@ -34,7 +34,7 @@ conc2Expr c = let (d, p) = c in
     Unary r c1 ->
       let e = conc2Expr c1 in
       case r of
-        DoubleNegation -> Callcc e
+        Peirce -> Callcc e
         AndElim1 -> Projl e
         AndElim2 -> Projr e
     Logic.Binary r c1 c2 ->
@@ -90,12 +90,12 @@ synth' ctxt expr =
       (t2', e2') <- synth' (Map.insert x t1' ctxt) e2
       Just (t2', Let x e1' e2')
     Callcc e -> case synth' ctxt e of
-      Just (TFunc (TFunc t TVoid) TVoid, e') -> Just (t, Callcc e')
+      Just (TFunc (TFunc t TVoid) t', e') | t == t' -> Just (t, Callcc e')
       _ -> Nothing
-    Abort e ->
+    Abort t e ->
       case synth' ctxt e of
-        Just (TVoid, _) -> error "unimplemented"
-        _ -> error "unimplemented"
+        Just (TVoid, e') -> Just (t, Abort t e')
+        _ -> Nothing
     Hole t ->
       let p = type2Prop t in
       let f = ctxt2Forest ctxt in

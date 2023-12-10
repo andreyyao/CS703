@@ -64,7 +64,7 @@ Expr
   | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }
   | Expr '*' Expr { Ast.Binary $1 Ast.Mul $3 }
   | callcc Expr { Ast.Callcc $2 }
-  | abort Expr { Ast.Abort $2 }
+  | abort Type Expr { Ast.Abort $2 $3 }
   | proj1 Expr { Ast.Projl $2 }
   | proj2 Expr { Ast.Projr $2 }
   | EApp { $1 }

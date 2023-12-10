@@ -18,23 +18,23 @@ checkSourceCode prog =
     putStrLn (divider ++ "\nProg: " ++ prog);
     case (typecheck . parseExpr . scanMany) prog of
       Just t -> putStrLn ("Type: " ++ show t ++ divider)
-      Nothing -> error "Error checking program"
+      Nothing -> putStrLn "Error checking program"
 
 checkSynthesize :: String -> IO ()
 checkSynthesize prog =
   let divider = "\n------------------------" in do
     putStrLn (divider ++ "\nProg: " ++ prog);
     case (synthesize . parseExpr . scanMany) prog of
-      Just t -> putStrLn ("Synthesized: " ++ show t ++ divider)
-      Nothing -> print "Error checking program"
+      Just e -> putStrLn ("Synthesized: " ++ show e ++ divider)
+      Nothing -> putStrLn "Error synthesizing program"
 
 checkSynthInterp :: String -> IO ()
 checkSynthInterp prog =
   let divider = "\n------------------------" in do
     putStrLn (divider ++ "\nProg: " ++ prog);
-    let v = (interp . fromJust . synthesize . parseExpr . scanMany) prog in
-      putStrLn ("Interpreted: " ++ show v ++ divider)
-
+    case (synthesize . parseExpr . scanMany) prog of
+      Just e -> putStrLn ("Interpreted: " ++ show (interp e) ++ divider)
+      Nothing -> putStrLn "Error interpreting program"
 
 readFilesInDirectory :: IO [String]
 readFilesInDirectory =

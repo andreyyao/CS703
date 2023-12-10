@@ -19,7 +19,7 @@ data BinRule
 
 -- Unary inference rule names
 data UnaRule
-  = DoubleNegation
+  = Peirce
   | AndElim1
   | AndElim2
   deriving(Eq)
@@ -43,8 +43,8 @@ type Forest = M.Map Prop Conclusion
 unaryHelper :: Conclusion -> [Conclusion]
 unaryHelper c =
   case snd c of
-    (Neg (Neg p)) -> [(Unary DoubleNegation c, p)]
-    (Conj p1 p2) -> [(Unary AndElim1 c, p1), (Unary AndElim2 c, p2)]
+    Impl (Neg p) p' | p == p' -> [(Unary Peirce c, p)]
+    Conj p1 p2 -> [(Unary AndElim1 c, p1), (Unary AndElim2 c, p2)]
     _ -> []
 
 binaryHelper :: Conclusion -> Conclusion -> Conclusion

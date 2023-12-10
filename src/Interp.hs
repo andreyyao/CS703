@@ -47,7 +47,7 @@ eval expr env k =
       _ -> error "hehe"
     Let x e1 e2 -> eval e1 env $ \v1 env' -> eval e2 (Map.insert x v1 env') k
     Callcc e -> error "unimplemented"
-    Abort e -> eval e env const
+    Abort _ e -> eval e env const
     Hole _ -> error "Encountered hole during interpretation"
 
 interp :: Expr -> Value

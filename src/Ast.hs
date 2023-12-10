@@ -16,7 +16,7 @@ data Expr
   | App Expr Expr
   | Let String Expr Expr
   | Callcc Expr
-  | Abort Expr
+  | Abort Tipe Expr
   | Hole Tipe
   deriving (Eq)
 
@@ -45,7 +45,7 @@ instance Show Expr where
     App e1 e2 -> atomize e1 ++ " " ++ atomize e2
     Let x e1 e2 -> "let " ++ x ++ " := " ++ show e1 ++ " in " ++ show e2
     Callcc e -> "call/cc" ++ atomize e
-    Abort e -> "abort " ++ atomize e ++ ")"
+    Abort t e -> "abort " ++ show t ++ atomize e ++ ")"
     Hole t -> "{|" ++ show t ++ "|}"
     where
       atomize e = case e of

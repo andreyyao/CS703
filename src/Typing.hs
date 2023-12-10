@@ -54,10 +54,10 @@ typecheck' ctxt expr =
       typecheck' ctxt e1 >>= (\t -> typecheck' (Map.insert x t ctxt) e2)
     Callcc e ->
       case typecheck' ctxt e of
-        Just (TFunc (TFunc t TVoid) TVoid) -> Just t
+        Just (TFunc (TFunc t TVoid) t') | t == t' -> Just t
         _ -> Nothing
-    Abort e ->
+    Abort t e ->
       case typecheck' ctxt e of
-        Just TVoid -> error "unimplemented"
+        Just TVoid -> Just t
         _ -> Nothing
     Hole t -> Just t
