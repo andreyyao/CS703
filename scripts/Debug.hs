@@ -29,6 +29,12 @@ checkSynthesize prog = do
       Just t -> putStrLn ("Synthesized: " ++ show t)
       Nothing -> print "Error checking program"
 
+checkSynthInterp :: String -> IO ()
+checkSynthInterp prog = do
+    case (synthesize . parseExpr . scanMany) prog of
+      Just e -> putStrLn ("Interpreted: " ++ show (interp e))
+      Nothing -> print "Error interpreting program"
+
 run :: String -> IO ()
 run prog = do
     putStrLn ("\nProg: " ++ prog);
@@ -38,6 +44,9 @@ run prog = do
     putStrLn("Typechecks: Success\n");
     checkSynthesize prog;
     putStrLn("Synhesizes: Success\n");
+    checkSynthInterp prog;
+    putStrLn("Interprets: Success\n");
+
 
 mainLoop :: IO()
 mainLoop = do

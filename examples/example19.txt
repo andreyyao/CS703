@@ -1,0 +1,1 @@
+let f:=lambda x:Int.true in lambda g: Int->Bool.(lambda h:Int.{|Bool|})
