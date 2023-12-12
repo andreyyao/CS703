@@ -21,9 +21,11 @@ typecheck' ctxt expr =
       case c of
         ConstBool _ -> Just TBool
         ConstInt _ -> Just TInt
-    Binary e1 _ e2 ->
+    Binary e1 op e2 ->
       case (typecheck' ctxt e1, typecheck' ctxt e2) of
-        (Just TInt, Just TInt) -> Just TInt
+        (Just TInt, Just TInt) | op == Add || op == Sub || op == Mul -> Just TInt
+        (Just TInt, Just TInt) | op == Gt || op == Lt || op == Gt -> Just TBool
+        (Just TInt, Just TInt) | op == And || op == Or -> Just TBool
         _ -> Nothing
     Projl e ->
       case typecheck' ctxt e of

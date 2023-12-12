@@ -58,7 +58,12 @@ synth' ctxt expr =
         ConstInt _ -> Just (TInt, expr)
     Ast.Binary e1 o e2 ->
       case (synth' ctxt e1, synth' ctxt e2) of
-        (Just (TInt, e1'), Just (TInt, e2')) -> Just (TInt, Ast.Binary e1' o e2')
+        (Just (t1, e1'), Just (t2, e2')) ->
+          let e' = Ast.Binary e1' o e2' in case (t1, t2) of
+            (TInt, TInt) | o == Add || o == Sub || o == Mul -> Just (TInt, e')
+            (TInt, TInt) | o == Equal || o == Lt || o == Gt -> Just (TBool, e')
+            (TBool, TBool) | o == And || o == Or -> Just (TBool, e')
+            _ -> Nothing
         _ -> Nothing
     Projl e ->
       case synth' ctxt e of

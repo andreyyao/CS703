@@ -6,7 +6,7 @@ import Ast
 -- The interpreter is implemented as a shallow embedding into the Haskell semantics
 
 data Value
-  = VClosure Kont -- A lambda paired with an enrivonment
+  = VClosure (Value -> Kont -> Value)
   | VConstant Constant
   | VPair Value Value -- It could be a pair of closures or something
 
@@ -17,7 +17,7 @@ type Kont = Value -> Value
 
 eval :: Expr -> Env -> Kont -> Value
 eval expr env k =
-  case expr of
+  case traceShowId expr of
     Const c -> k (VConstant c)
     Var x -> case Map.lookup x env of
       Just v -> k v
@@ -36,13 +36,13 @@ eval expr env k =
     Branch b e1 e2 -> eval b env $ \v -> case v of
       VConstant (ConstBool cond) -> if cond then eval e1 env k else eval e2 env k
       _ -> error "hehe"
-    Lambda x _ e -> VClosure (\v' -> eval e (Map.insert x v' env) k)
+    Lambda x _ e -> k $ VClosure (\v' k' -> eval e (Map.insert x v' env) k')
     App e1 e2 -> eval e1 env $ \v1 -> eval e2 env $ \v2 -> case v1 of
-      VClosure k' -> k' v2
+      VClosure k' -> k' v2 k
       _ -> error "hehe"
     Let x e1 e2 -> eval e1 env $ \v1 -> eval e2 (Map.insert x v1 env) k
-    Callcc e -> case eval e env id of
-      VClosure k' -> k' (VClosure k)
+    Callcc e -> eval e env $ \v -> case v of
+      VClosure f -> f (VClosure (\v' _ -> k v')) k
       _ -> error "hehe"
     Abort _ e -> eval e env id
     Hole _ -> error "Encountered hole during interpretation"
