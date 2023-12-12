@@ -1,6 +1,5 @@
 {
 module Lexer (scanMany, Token(..)) where
-import Debug.Trace
 }
 
 %wrapper "basic"
@@ -38,6 +37,11 @@ tokens :-
   "+"                            { \_ -> Plus }
   "-"                            { \_ -> Minus }
   "*"                            { \_ -> Times }
+  "="                            { \_ -> Equal }
+  "<"                            { \_ -> Lt }
+  ">"                            { \_ -> Gt }
+  "&"                            { \_ -> And }
+  "|"                            { \_ -> Or }
   "->"                           { \_ -> Arrow }
   ":="                           { \_ -> Coloneq }
   "{|"                           { \_ -> LBrack }
@@ -75,6 +79,11 @@ data Token
   | Plus
   | Minus
   | Times
+  | Equal
+  | Lt
+  | Gt
+  | And
+  | Or
   | LBrack
   | RBrack
   deriving (Eq, Show)

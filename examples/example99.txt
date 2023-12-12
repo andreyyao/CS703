@@ -1,0 +1,6 @@
+let f := lambda x:Int. callcc
+  (lambda k: Int -> Void.
+     if x > 42
+     then abort Int (k 42)
+     else 2) in
+1 + 2 + (f 100)

@@ -1,6 +1,6 @@
 module Ast where
 
-data Binop = Add | Sub | Mul deriving (Eq)
+data Binop = Add | Sub | Mul | Equal | Gt | Lt | And | Or deriving (Eq)
 
 data Constant = ConstBool Bool | ConstInt Int deriving (Eq)
 
@@ -79,3 +79,8 @@ instance Show Binop where
     Add -> "+"
     Mul -> "*"
     Sub -> "-"
+    Equal -> "="
+    Lt -> "<"
+    Gt -> ">"
+    And -> "&"
+    Or -> "|"

@@ -14,6 +14,8 @@ import Debug.Trace
 %left '+' '-'
 %right '->'
 %left '*'
+%left '=' '<' '>'
+%left '&' '|'
 
 
 %token
@@ -36,6 +38,11 @@ Void            { L.Void }
 '+'             { L.Plus }
 '-'             { L.Minus }
 '*'             { L.Times }
+'='             { L.Equal }
+'<'             { L.Lt }
+'>'             { L.Gt }
+'&'             { L.And }
+'|'             { L.Or }
 '.'             { L.Dot }
 ','             { L.Comma }
 ':'             { L.Colon }
@@ -63,6 +70,11 @@ Expr
   | Expr '-' Expr { Ast.Binary $1 Ast.Sub $3 }
   | Expr '+' Expr { Ast.Binary $1 Ast.Add $3 }
   | Expr '*' Expr { Ast.Binary $1 Ast.Mul $3 }
+  | Expr '=' Expr { Ast.Binary $1 Ast.Equal $3 }
+  | Expr '<' Expr { Ast.Binary $1 Ast.Lt $3 }
+  | Expr '>' Expr { Ast.Binary $1 Ast.Gt $3 }
+  | Expr '&' Expr { Ast.Binary $1 Ast.And $3 }
+  | Expr '|' Expr { Ast.Binary $1 Ast.Or $3 }
   | callcc Expr { Ast.Callcc $2 }
   | abort Type Expr { Ast.Abort $2 $3 }
   | proj1 Expr { Ast.Projl $2 }
