@@ -1,0 +1,1 @@
+1 + callcc (lambda k: Int->Void. 2 + abort Int (k 5))

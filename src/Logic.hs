@@ -9,7 +9,6 @@ data Prop
   deriving(Ord, Eq)
 -- Example : Conj (Atom "Int") (Atom "Bool") is the type (Int * Bool)
 
-
 -- Binary inference rule names
 data BinRule
   = ModusPonens

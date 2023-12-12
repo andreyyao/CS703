@@ -16,11 +16,12 @@ dependencies:
 
 executables:
   main:
-    main-is: Main.hs
+    main: Main.hs
     source-dirs: app
     dependencies:
     - base
     - ghc
+    - cmdargs
     - CS703
   debug:
     main: Debug.hs
@@ -29,7 +30,6 @@ executables:
     dependencies:
     - base
     - filepath
-    - directory
     - text
     - hspec >=2.0.0
     - hspec-expectations-lifted
