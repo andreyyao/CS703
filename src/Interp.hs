@@ -17,7 +17,7 @@ type Kont = Value -> Value
 
 eval :: Expr -> Env -> Kont -> Value
 eval expr env k =
-  case traceShowId expr of
+  case expr of
     Const c -> k (VConstant c)
     Var x -> case Map.lookup x env of
       Just v -> k v
