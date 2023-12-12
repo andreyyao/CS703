@@ -1,30 +1,50 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 module Main where
 
+import System.FilePath
+import qualified Data.Text as T
+import qualified Data.Text.IO as TIO
 import Data.Map(Map)
 import qualified Data.Map as Map
 import qualified Data.Set as Set
 import qualified Data.List as List
+import System.Console.CmdArgs
 import Ast
-import Typing(Context)
+import Synthesizer(synthesize)
+import Typing(Context, typecheck)
+import Interp(interp, Value)
+import Parser(parseType, parseExpr)
+import Lexer(scanMany)
+import Debug.Trace
 
--- removeDups takes a context and remove the variables with duplicate types
-removeDups :: Context -> [(String, Tipe)]
-removeDups m =
-  helper Set.empty (Map.toList m) where
-  helper seen lst =
-    case lst of
-      [] -> []
-      (v, t) : xs ->
-        if Set.member t seen then helper seen xs else (v, t) : (helper (Set.insert t seen) xs)
+data Modal = Check | Synth | Eval
+                deriving (Show, Data, Typeable)
 
-myMap :: Map.Map String Tipe
-myMap = Map.fromList [("x", TInt), ("y", TBool), ("z", TInt), ("h", TInt)]
+data Nice = Nice {file :: FilePath, mode :: Modal} deriving (Show, Data, Typeable)
 
-uniqueKeyValuePairs :: [(String, Tipe)]
-uniqueKeyValuePairs = removeDups myMap
 
--- Print the unique key-value pairs
+nice = Nice
+  { file = def,
+    mode = enum
+    [ Check &= help "Type check",
+      Synth &= help "Synthesis",
+      Eval &= help "Evaluate" ]
+  } &= help "synthcc" &= auto
+
+cmd = cmdArgs $ nice &= help "Synthesizer" &= program "Synthcc" &= summary "CS703 Synthesizer for first class continuations v1.0"
+
+parseFile :: FilePath -> IO Expr
+parseFile filePath = do
+    fileContent <- TIO.readFile filePath
+    return (parseExpr . scanMany $ T.unpack fileContent)
+
 main :: IO ()
 main = do
-  putStrLn "Unique key-value pairs:"
-  mapM_ print uniqueKeyValuePairs
+  c <- cmd
+  e <- parseFile $ file c
+  putStrLn $ case mode c of
+    Check -> case typecheck e of
+      Just t -> "Type: " ++ show t
+      Nothing -> "Type error"
+    Synth -> maybe "Synthesis error" show (synthesize e)
+    Eval -> show $ interp e

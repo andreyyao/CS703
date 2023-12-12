@@ -42,7 +42,7 @@ eval expr env k =
       VConstant (ConstBool cond) -> if cond then eval e1 env k else eval e2 env k
       _ -> error "hehe"
     Lambda x _ e -> VClosure (\v' env' -> eval e (Map.insert x v' env) k)
-    App e1 e2 -> eval e1 env $ \v1 env' -> eval e2 env' $ \v2 _ -> case traceShowId v1 of
+    App e1 e2 -> eval e1 env $ \v1 env' -> eval e2 env' $ \v2 _ -> case v1 of
       VClosure k' -> k' v2 env
       _ -> error "hehe"
     Let x e1 e2 -> eval e1 env $ \v1 env' -> eval e2 (Map.insert x v1 env') k
