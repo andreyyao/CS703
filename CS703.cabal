@@ -56,6 +56,7 @@ executable debug
     , hspec >=2.0.0
     , hspec-expectations-lifted
     , text
+    , timeit
   default-language: Haskell2010
 
 executable main
@@ -75,27 +76,6 @@ executable main
     , containers
     , filepath
     , ghc
-    , text
-  default-language: Haskell2010
-
-executable runtime
-  main-is: Runtime.hs
-  hs-source-dirs:
-      scripts
-  default-extensions:
-      OverloadedStrings
-  build-depends:
-      CS703
-    , array
-    , base
-    , bytestring
-    , clock
-    , containers
-    , directory
-    , filepath
-    , formatting
-    , hspec >=2.0.0
-    , hspec-expectations-lifted
     , text
   default-language: Haskell2010
 

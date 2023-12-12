@@ -23,6 +23,8 @@ executables:
     - ghc
     - cmdargs
     - CS703
+    - filepath
+    - text
   debug:
     main: Debug.hs
     other-modules:       []
@@ -31,6 +33,8 @@ executables:
     - base
     - filepath
     - text
+    - directory
+    - timeit
     - hspec >=2.0.0
     - hspec-expectations-lifted
     - CS703
