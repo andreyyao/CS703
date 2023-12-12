@@ -39,6 +39,25 @@ library
     , containers
   default-language: Haskell2010
 
+executable debug
+  main-is: Debug.hs
+  hs-source-dirs:
+      scripts
+  default-extensions:
+      OverloadedStrings
+  build-depends:
+      CS703
+    , array
+    , base
+    , bytestring
+    , containers
+    , directory
+    , filepath
+    , hspec >=2.0.0
+    , hspec-expectations-lifted
+    , text
+  default-language: Haskell2010
+
 executable main
   main-is: Main.hs
   other-modules:
@@ -56,6 +75,48 @@ executable main
     , containers
     , filepath
     , ghc
+    , text
+  default-language: Haskell2010
+
+executable runtime
+  main-is: Runtime.hs
+  hs-source-dirs:
+      scripts
+  default-extensions:
+      OverloadedStrings
+  build-depends:
+      CS703
+    , array
+    , base
+    , bytestring
+    , clock
+    , containers
+    , directory
+    , filepath
+    , formatting
+    , hspec >=2.0.0
+    , hspec-expectations-lifted
+    , text
+  default-language: Haskell2010
+
+executable runtime
+  main-is: Runtime.hs
+  hs-source-dirs:
+      scripts
+  default-extensions:
+      OverloadedStrings
+  build-depends:
+      CS703
+    , array
+    , base
+    , bytestring
+    , clock
+    , containers
+    , directory
+    , filepath
+    , formatting
+    , hspec >=2.0.0
+    , hspec-expectations-lifted
     , text
   default-language: Haskell2010
 
