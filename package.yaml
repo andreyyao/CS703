@@ -24,12 +24,27 @@ executables:
     - CS703
   debug:
     main: Debug.hs
+    other-modules:       []
     source-dirs: scripts
     dependencies:
     - base
     - filepath
     - directory
     - text
+    - hspec >=2.0.0
+    - hspec-expectations-lifted
+    - CS703
+  runtime:
+    main: Runtime.hs
+    source-dirs: scripts
+    other-modules:       []
+    dependencies:
+    - base
+    - filepath
+    - directory
+    - text
+    - clock
+    - formatting
     - hspec >=2.0.0
     - hspec-expectations-lifted
     - CS703
