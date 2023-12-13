@@ -25,7 +25,7 @@ typecheck' ctxt expr =
       case (typecheck' ctxt e1, typecheck' ctxt e2) of
         (Just TInt, Just TInt) | op == Add || op == Sub || op == Mul -> Just TInt
         (Just TInt, Just TInt) | op == Gt || op == Lt || op == Gt -> Just TBool
-        (Just TInt, Just TInt) | op == And || op == Or -> Just TBool
+        (Just TBool, Just TBool) | op == And || op == Or -> Just TBool
         _ -> Nothing
     Projl e ->
       case typecheck' ctxt e of
