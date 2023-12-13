@@ -1,3 +1,4 @@
+module Main where
 import System.Directory (listDirectory)
 import System.FilePath
 import Data.Maybe
@@ -8,38 +9,25 @@ import Typing
 import Interp(interp, Value)
 import Parser(parseType, parseExpr)
 import Lexer(scanMany)
-import Ast(Tipe)
+import Ast(Tipe, sizeof )
 import Logic()
 import Synthesizer(synthesize)
-import System.TimeIt
+import Control.Exception
+import Formatting
+import Formatting.Clock
+import System.Clock
 
-
-checkValidCode :: String -> IO ()
-checkValidCode prog = do
-    case (typecheck . parseExpr . scanMany) prog of
-        Just t -> putStrLn ("Type: " ++ show t)
-        Nothing -> error "Error checking program"
-
-checkScanTokens :: String -> IO ()
-checkScanTokens prog = do
-    putStrLn ("Tokens: " ++ show (scanMany prog))
-        
-
-checkSynthesize :: String -> IO ()
-checkSynthesize prog = do
-    case (synthesize . parseExpr . scanMany) prog of
-      Just t -> putStrLn ("Synthesized: " ++ show t)
-      Nothing -> print "Error checking program"
 
 run :: String -> IO ()
 run prog = do
-    putStrLn ("\nProg: " ++ prog);
-    checkScanTokens prog;
-    putStrLn("Parses: Success\n");
-    checkValidCode prog;
-    putStrLn("Typechecks: Success\n");
-    timeIt $ checkSynthesize prog;
-    putStrLn("Synhesizes: Success\n");
+    putStrLn ("=========================================")
+    start <- getTime Monotonic
+    putStrLn ( "SIZE_ORIG:" ++ show ((sizeof. parseExpr . scanMany) prog));
+    case (synthesize . parseExpr . scanMany) prog of
+      Just t -> putStrLn ( "IN:"++prog ++ "\nSYNTH: " ++ show t ++ "\nSIZE_SYNTH:" ++  show (sizeof t));
+      Nothing -> putStrLn ( "IN:"++prog ++ "\nSYNTH:Error checking program");
+    end <- getTime Monotonic
+    fprint (timeSpecs % "\n") start end
 
 
 mainLoop :: IO()

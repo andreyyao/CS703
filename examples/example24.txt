@@ -1,0 +1,1 @@
+let a:=(snd (2,2)) in lambda f:Int->Int*Bool.(lambda x:Bool.{|Int*Bool|})

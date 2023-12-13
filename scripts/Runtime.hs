@@ -9,7 +9,7 @@ import Typing
 import Interp(interp, Value)
 import Parser(parseType, parseExpr)
 import Lexer(scanMany)
-import Ast(Tipe)
+import Ast(Tipe, sizeof )
 import Logic()
 import Synthesizer(synthesize)
 import Control.Exception
@@ -17,18 +17,23 @@ import Formatting
 import Formatting.Clock
 import System.Clock
 
-checkSynthesize :: String -> IO ()
-checkSynthesize prog = do
-    case (synthesize . parseExpr . scanMany) prog of
-      Just t -> putStrLn ( prog ++ " -> " ++ show t)
-      Nothing -> putStrLn ( prog ++ " -> " ++ "Error checking program")
 
+checkSynth:: String->String
+checkSynth prog = do
+    let origString =  "SIZE_ORIG:" ++ show ((sizeof. parseExpr . scanMany) prog) ++ "\nIN:"++prog in do
+        case (synthesize . parseExpr . scanMany) prog of
+            Just t -> origString++ "\nSYNTH:" ++ show t ++ "\nSIZE_SYNTH:" ++  show (sizeof t);
+            Nothing ->  origString ++ "\nSYNTH:ERROR\nSIZE_SYNTH:None"
 run :: String -> IO ()
 run prog = do
+    putStrLn ("__NEW_EXAMPLE__")
     start <- getTime Monotonic
-    checkSynthesize prog;
+    putStrLn (checkSynth prog)
     end <- getTime Monotonic
+    fprint "TIME:"
     fprint (timeSpecs % "\n") start end
+
+
 readFilesInDirectory :: IO [String]
 readFilesInDirectory =
   let dir = "examples" in do
@@ -43,5 +48,7 @@ readFileAsStrings filePath = do
 
 main :: IO ()
 main = do  
+    putStrLn("__START__")
     programs <- readFilesInDirectory
     mapM_ run programs
+    putStrLn("__END__")

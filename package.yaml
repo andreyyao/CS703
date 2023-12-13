@@ -32,9 +32,10 @@ executables:
     dependencies:
     - base
     - filepath
-    - text
     - directory
-    - timeit
+    - text
+    - clock
+    - formatting
     - hspec >=2.0.0
     - hspec-expectations-lifted
     - CS703

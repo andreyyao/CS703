@@ -1,0 +1,1 @@
+lambda f:Int. if {|Int|} > 1 then true else false

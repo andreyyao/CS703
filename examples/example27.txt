@@ -1,0 +1,1 @@
+let a:=true in lambda f1: Bool->Int.lambda f: Int -> Int*Int.{|Int*Int|}

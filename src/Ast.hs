@@ -84,3 +84,20 @@ instance Show Binop where
     Gt -> ">"
     And -> "&"
     Or -> "|"
+
+
+sizeof expr =
+  case expr of
+    Var _ -> 1
+    Const _ -> 1
+    Binary e1 _ e2 -> 1 + sizeof e1 + sizeof e2
+    Projl e -> 1 + sizeof e
+    Projr e -> 1 + sizeof e
+    Pair e1 e2 -> 1 + sizeof e1 + sizeof e2
+    Branch b e1 e2 -> 1 + sizeof b + sizeof e1 + sizeof e2
+    Lambda x t e -> 1 + sizeof e
+    App e1 e2 -> 1 + sizeof e1 + sizeof e2
+    Let x e1 e2 -> 1 + sizeof e1 + sizeof e2
+    Callcc e -> 1 + sizeof e
+    Abort t e -> 1 + sizeof e
+    Hole t -> 0

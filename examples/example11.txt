@@ -1,1 +1,1 @@
-(111111111111111111111111111111111 + 11111111111111111111111111111)
+lambda f1:(Bool*(Int*Int))->(Int*Int).lambda f2:Int.lambda f3:Bool->Int.lambda f4:Bool.{|Int*Int|}

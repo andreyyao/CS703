@@ -1,0 +1,1 @@
+lambda f: Int->(Int*Int).lambda f1: (Int*Int)->Bool.lambda f2: Bool->(Int*Bool).lambda f3:Int.{|Int*Bool|}

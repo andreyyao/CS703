@@ -1,0 +1,1 @@
+lambda f1: Int->Bool.lambda f2:Int*Int.if (fst f2) > 1 then (if {|Bool|} then true else false) else false
