@@ -1,1 +1,1 @@
-((lambda f: Int -> Bool.(lambda x: Int.{|Bool|})))
+((lambda f: Int -> Bool.(lambda x: Int.{|Bool*Bool|})))

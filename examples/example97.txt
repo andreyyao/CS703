@@ -1,2 +1,0 @@
-let f := lambda k: Int -> Void. abort Int (k 4) in
-3 + 4 * {|Int|}

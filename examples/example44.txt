@@ -1,0 +1,1 @@
+lambda a:Int.lambda b:Bool.lambda c:(Int*Bool).{|(Int*(Bool*Bool))|}

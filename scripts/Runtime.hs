@@ -39,6 +39,7 @@ readFilesInDirectory =
   let dir = "examples" in do
     files <- listDirectory dir
     let filePaths = map (dir </>) files
+    putStrLn ("Reading files: " ++ show filePaths)
     mapM readFileAsStrings filePaths
 
 readFileAsStrings :: FilePath -> IO String

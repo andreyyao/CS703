@@ -1,0 +1,1 @@
+let x:=(1,1) in lambda f: (Int*Int)->Bool.lambda g: Bool->(Int->Int).{|Int->Int|}

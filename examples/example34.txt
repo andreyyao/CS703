@@ -1,0 +1,1 @@
+let f:=lambda x: Bool. if x  then (true,0) else (false,1) in lambda g: Bool->((Bool*Int)->(Int*Bool)).lambda h: Bool.{|Int*Bool|}

@@ -1,0 +1,334 @@
+__START__
+Reading files: ["examples\\example99.txt","examples\\example98.txt","examples\\example9.txt","examples\\example8.txt","examples\\example7.txt","examples\\example6.txt","examples\\example50.txt","examples\\example5.txt","examples\\example49.txt","examples\\example48.txt","examples\\example47.txt","examples\\example46.txt","examples\\example45.txt","examples\\example44.txt","examples\\example43.txt","examples\\example42.txt","examples\\example41.txt","examples\\example40.txt","examples\\example4.txt","examples\\example39.txt","examples\\example38.txt","examples\\example37.txt","examples\\example36.txt","examples\\example35.txt","examples\\example34.txt","examples\\example33.txt","examples\\example32.txt","examples\\example31.txt","examples\\example30.txt","examples\\example3.txt","examples\\example29.txt","examples\\example28.txt","examples\\example27.txt","examples\\example26.txt","examples\\example25.txt","examples\\example24.txt","examples\\example23.txt","examples\\example22.txt","examples\\example21.txt","examples\\example20.txt","examples\\example2.txt","examples\\example19.txt","examples\\example18.txt","examples\\example17.txt","examples\\example16.txt","examples\\example15.txt","examples\\example14.txt","examples\\example13.txt","examples\\example12.txt","examples\\example11.txt","examples\\example100.txt","examples\\example10.txt","examples\\example1.txt"]
+__NEW_EXAMPLE__
+SIZE_ORIG:20
+IN:let f := lambda x:Int. callcc
+  (lambda k: Int -> Void.
+     if x > 42
+     then abort Int (k 42)
+     else 2) in
+1 + 2 + (f 100)
+SYNTH:let f := lambda x : Int. callcc (lambda k : Int -> Void. if x > 42 then (abort Int (k 42)) else 2) in (1 + 2) + (f 100)
+SIZE_SYNTH:20
+TIME:228.60 us
+__NEW_EXAMPLE__
+SIZE_ORIG:20
+IN:let f := lambda x:Int. callcc
+  (lambda k: Int -> Void.
+     if x = 0
+     then abort Int (k x)
+     else 2) in
+1 + 2 + (f 100)
+SYNTH:let f := lambda x : Int. callcc (lambda k : Int -> Void. if x = 0 then (abort Int (k x)) else 2) in (1 + 2) + (f 100)
+SIZE_SYNTH:20
+TIME:84.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:5
+IN:(lambda f1:Bool->Int.(lambda f2:Int->Bool.(lambda f3:Bool->Bool.(lambda f4:Int->Bool.(lambda f5:Bool.{|Int|})))))
+SYNTH:lambda f1 : Bool -> Int. lambda f2 : Int -> Bool. lambda f3 : Bool -> Bool. lambda f4 : Int -> Bool. lambda f5 : Bool. f1 f5
+SIZE_SYNTH:8
+TIME:88.40 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:lambda f:Int->Int. lambda g:Bool->Int.{|Bool|}
+SYNTH:ERROR
+SIZE_SYNTH:None
+TIME:261.12 ms
+__NEW_EXAMPLE__
+SIZE_ORIG:7
+IN:let a := lambda z:Bool.(1+1) in
+ (lambda f: Bool->Int*Int.(lambda g: (Int->Int) * Int. {|Int*Int|}))
+SYNTH:let a := lambda z : Bool. 1 + 1 in lambda f : Bool -> (Int * Int). lambda g : (Int -> Int) * Int. (snd g, snd g)
+SIZE_SYNTH:12
+TIME:210.00 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:(lambda f: Int*Int->Bool.(lambda i: Int.{|Bool|}))
+SYNTH:lambda f : (Int * Int) -> Bool. lambda i : Int. f (i, i)
+SIZE_SYNTH:7
+TIME:32.10 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int*((Int*Int)*Int))|}
+SYNTH:lambda a : Int. (a, ((a, a), a))
+SIZE_SYNTH:8
+TIME:23.40 us
+__NEW_EXAMPLE__
+SIZE_ORIG:5
+IN:(lambda f: Bool->Int.(lambda g: Int->Bool.(lambda x: Bool.(g {|Int|}))))
+SYNTH:lambda f : Bool -> Int. lambda g : Int -> Bool. lambda x : Bool. g (f x)
+SIZE_SYNTH:8
+TIME:28.10 us
+__NEW_EXAMPLE__
+SIZE_ORIG:3
+IN:lambda f:Bool*Int->(Int*Int).lambda g:Int*Bool.snd {|(Int*(Bool*Int))|}
+SYNTH:lambda f : (Bool * Int) -> (Int * Int). lambda g : Int * Bool. snd (fst g, (snd g, fst g))
+SIZE_SYNTH:11
+TIME:9.45 ms
+__NEW_EXAMPLE__
+SIZE_ORIG:10
+IN:let f := lambda k: Int -> Void. abort Int (k 4) in 3 + 4 * {|Int|}
+SYNTH:let f := lambda k : Int -> Void. abort Int (k 4) in 3 + (4 * (callcc f))
+SIZE_SYNTH:12
+TIME:78.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int*Int)*(Int*Int)|}
+SYNTH:lambda a : Int. ((a, a), (a, a))
+SIZE_SYNTH:8
+TIME:16.60 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int*Int)*(Int*((Int*Int)*Int))|}
+SYNTH:lambda a : Int. ((a, a), (a, ((a, a), a)))
+SIZE_SYNTH:12
+TIME:728.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|Int*(Int*((Int*Int)*Int))|}
+SYNTH:lambda a : Int. (a, (a, ((a, a), a)))
+SIZE_SYNTH:10
+TIME:606.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:3
+IN:lambda a:Int.lambda b:Bool.lambda c:(Int*Bool).{|(Int*(Bool*Bool))|}
+SYNTH:lambda a : Int. lambda b : Bool. lambda c : Int * Bool. (a, (b, b))
+SIZE_SYNTH:8
+TIME:63.00 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda x: Bool. lambda f: Bool->Int*Bool.lambda g: Int*Bool->(Int*(Int*Bool)).lambda h:(Int*(Int*Bool))->(Int*(Int*(Int*Bool))).{|(Int*(Int*(Int*Bool)))|}
+SYNTH:lambda x : Bool. lambda f : Bool -> (Int * Bool). lambda g : (Int * Bool) -> (Int * (Int * Bool)). lambda h : (Int * (Int * Bool)) -> (Int * (Int * (Int * Bool))). (lambda tmp : (Int * Bool) -> (Int * (Int * (Int * Bool))). h (g tmp)) (f x)
+SIZE_SYNTH:14
+TIME:408.20 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda x: Int.lambda f: Int->Bool.lambda f1:Bool->Int*Bool.lambda f2: Int*Bool->(Int*Int)*Bool.{|((Int*Int)*Bool)|}   
+SYNTH:lambda x : Int. lambda f : Int -> Bool. lambda f1 : Bool -> (Int * Bool). lambda f2 : (Int * Bool) -> ((Int * Int) * Bool). (lambda tmp : Bool -> ((Int * Int) * Bool). f2 (f1 tmp)) (f x)
+SIZE_SYNTH:14
+TIME:344.80 us
+__NEW_EXAMPLE__
+SIZE_ORIG:6
+IN:let x:=(1,1) in lambda f: (Int*Int)->Bool.lambda g: Bool->(Int->Int).{|Int->Int|}
+SYNTH:let x := (1, 1) in lambda f : (Int * Int) -> Bool. lambda g : Bool -> (Int -> Int). (lambda tmp : (Int * Int) -> (Int -> Int). g (f tmp)) x
+SIZE_SYNTH:14
+TIME:123.20 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:lambda f:Bool*Int->(Int*Int).lambda g:Int*Bool.{|(Int*Int)|}
+SYNTH:lambda f : (Bool * Int) -> (Int * Int). lambda g : Int * Bool. (fst g, fst g)
+SIZE_SYNTH:7
+TIME:45.70 us
+__NEW_EXAMPLE__
+SIZE_ORIG:11
+IN:let b := true in if {| Bool |} then fst (3, 4) else snd (5, 6)
+SYNTH:let b := true in if b then (fst (3, 4)) else (snd (5, 6))
+SIZE_SYNTH:12
+TIME:22.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:lambda p:Int*Bool.lambda f:(Bool*Int)->(Int->Bool).{|Int->Bool|}
+SYNTH:lambda p : Int * Bool. lambda f : (Bool * Int) -> (Int -> Bool). f (snd p, fst p)
+SIZE_SYNTH:9
+TIME:7.28 ms
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda f: ((Int*Int)*Bool).{|Bool->Int|}
+SYNTH:ERROR
+SIZE_SYNTH:None
+TIME:444.17 ms
+__NEW_EXAMPLE__
+SIZE_ORIG:12
+IN:let f:=lambda x: Bool. if x  then (1,0) else (0,1) in lambda g: (Int*Int)->(Int*Bool).lambda h: Bool.{|(Int*Bool)|}
+SYNTH:let f := lambda x : Bool. if x then (1, 0) else (0, 1) in lambda g : (Int * Int) -> (Int * Bool). lambda h : Bool. g (f h)
+SIZE_SYNTH:17
+TIME:162.40 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:lambda f:Int->(Int*Int).lambda h: Bool.{|Bool->Int|}
+
+SYNTH:ERROR
+SIZE_SYNTH:None
+TIME:11.05 s
+__NEW_EXAMPLE__
+SIZE_ORIG:3
+IN:lambda x: Bool. lambda f: Bool->Int*Bool.lambda g: Int*Bool->(Int*(Int*Bool)).{|(Int*(Int*Bool))|}
+SYNTH:lambda x : Bool. lambda f : Bool -> (Int * Bool). lambda g : (Int * Bool) -> (Int * (Int * Bool)). g (f x)
+SIZE_SYNTH:8
+TIME:113.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:12
+IN:let f:=lambda x: Bool. if x  then (true,0) else (false,1) in lambda g: Bool->((Bool*Int)->(Int*Bool)).lambda h: Bool.{|Int*Bool|}
+SYNTH:let f := lambda x : Bool. if x then (true, 0) else (false, 1) in lambda g : Bool -> ((Bool * Int) -> (Int * Bool)). lambda h : Bool. (g h) (f h)
+SIZE_SYNTH:19
+TIME:139.50 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda f: Int->(Int*Int).lambda f1: (Int*Int)->Bool.lambda f2: Bool->(Int*Bool).lambda f3:Int.{|Int*Bool|}
+SYNTH:lambda f : Int -> (Int * Int). lambda f1 : (Int * Int) -> Bool. lambda f2 : Bool -> (Int * Bool). lambda f3 : Int. (lambda tmp : (Int * Int) -> (Int * Bool). f2 (f1 tmp)) (f f3)
+SIZE_SYNTH:14
+TIME:323.60 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda f:Int.{|Bool|}
+SYNTH:ERROR
+SIZE_SYNTH:None
+TIME:617.50 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda f: Bool.{|Bool|}
+SYNTH:lambda f : Bool. f
+SIZE_SYNTH:2
+TIME:6.80 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:((lambda f: Int -> Bool.(lambda x: Int.{|Bool*Bool|})))
+SYNTH:lambda f : Int -> Bool. lambda x : Int. (f x, f x)
+SIZE_SYNTH:9
+TIME:24.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:((lambda f: Bool -> Int.(lambda x: Bool.{|Int|})))
+SYNTH:lambda f : Bool -> Int. lambda x : Bool. f x
+SIZE_SYNTH:5
+TIME:257.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda f: Int->(Int*Int).lambda f1:(Int*Int)->(Bool*(Int*Int)).lambda f2: (Bool*(Int*Int))->Bool.lambda x: Int.{|Bool|}
+SYNTH:lambda f : Int -> (Int * Int). lambda f1 : (Int * Int) -> (Bool * (Int * Int)). lambda f2 : (Bool * (Int * Int)) -> Bool. lambda x : Int. (lambda tmp : (Int * Int) -> Bool. f2 (f1 tmp)) (f x)
+SIZE_SYNTH:14
+TIME:325.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:11
+IN:lambda f1: Int->Bool.lambda f2:Int*Int.if (fst f2) > 1 then (if {|Bool|} then true else false) else false
+
+SYNTH:lambda f1 : Int -> Bool. lambda f2 : Int * Int. if (fst f2) > 1 then (if f1 (fst f2) then true else false) else false
+SIZE_SYNTH:15
+TIME:61.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:let a:=true in lambda f1: Bool->Int.lambda f: Int -> Int*Int.{|Int*Int|}
+SYNTH:let a := true in lambda f1 : Bool -> Int. lambda f : Int -> (Int * Int). f (f1 a)
+SIZE_SYNTH:9
+TIME:97.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:((lambda f: Int -> Bool.(lambda x: Int.{|(Bool*Bool)*Bool|})))
+SYNTH:lambda f : Int -> Bool. lambda x : Int. ((f x, f x), f x)
+SIZE_SYNTH:13
+TIME:1.44 ms
+__NEW_EXAMPLE__
+SIZE_ORIG:9
+IN:let a:=lambda z:Bool*Int.((snd z),(fst z)) in lambda f:Bool*Int->Int*Bool.(lambda x:Bool*Int.{|Int*Bool|})
+SYNTH:let a := lambda z : Bool * Int. (snd z, fst z) in lambda f : (Bool * Int) -> (Int * Bool). lambda x : Bool * Int. a x
+SIZE_SYNTH:12
+TIME:28.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:7
+IN:let a:=(snd (2,2)) in lambda f:Int->Int*Bool.(lambda x:Bool.{|Int*Bool|})
+SYNTH:let a := snd (2, 2) in lambda f : Int -> (Int * Bool). lambda x : Bool. f a
+SIZE_SYNTH:10
+TIME:23.20 us
+__NEW_EXAMPLE__
+SIZE_ORIG:8
+IN:lambda f:Int. if (f-1) > 1 then {|Int|} else 1
+SYNTH:lambda f : Int. if (f - 1) > 1 then f else 1
+SIZE_SYNTH:9
+TIME:16.40 us
+__NEW_EXAMPLE__
+SIZE_ORIG:6
+IN:lambda f:Int. if {|Int|} > 1 then true else false
+SYNTH:lambda f : Int. if f > 1 then true else false
+SIZE_SYNTH:7
+TIME:12.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:lambda f:Int->Int*Int.lambda g:Int.{|Int*Int|}
+SYNTH:lambda f : Int -> (Int * Int). lambda g : Int. f g
+SIZE_SYNTH:5
+TIME:11.10 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:(lambda f1:(Int*(Int*Int))->Bool.(lambda f2: Int->(Int*Int).(lambda f3: (Int*Int)->Bool.(lambda f4: Int.{|Bool|}))))
+SYNTH:lambda f1 : (Int * (Int * Int)) -> Bool. lambda f2 : Int -> (Int * Int). lambda f3 : (Int * Int) -> Bool. lambda f4 : Int. f3 (f2 f4)
+SIZE_SYNTH:9
+TIME:306.20 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:((lambda f: Int -> Bool.(lambda x: Int.{|Bool|})))
+SYNTH:lambda f : Int -> Bool. lambda x : Int. f x
+SIZE_SYNTH:5
+TIME:11.60 us
+__NEW_EXAMPLE__
+SIZE_ORIG:5
+IN:let f:=lambda x:Int.true in lambda g: Int->Bool.(lambda h:Int.{|Bool|})
+SYNTH:let f := lambda x : Int. true in lambda g : Int -> Bool. lambda h : Int. f h
+SIZE_SYNTH:8
+TIME:14.70 us
+__NEW_EXAMPLE__
+SIZE_ORIG:5
+IN:(lambda x:(Int*Int).{|Int|}) (1,2)
+SYNTH:(lambda x : Int * Int. fst x) (1, 2)
+SIZE_SYNTH:7
+TIME:13.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:lambda f: Int*(Int->Bool).(lambda g:Int->Bool.{|Int|})
+SYNTH:lambda f : Int * (Int -> Bool). lambda g : Int -> Bool. fst f
+SIZE_SYNTH:4
+TIME:12.60 us
+__NEW_EXAMPLE__
+SIZE_ORIG:7
+IN:let x:=lambda z: Int*Int.(1,true) in lambda f: Int*Bool->Bool.(lambda g:(Int*Int)*(Int*Int).{|Bool|})
+SYNTH:let x := lambda z : Int * Int. (1, true) in lambda f : (Int * Bool) -> Bool. lambda g : (Int * Int) * (Int * Int). (lambda tmp : (Int * Int) -> Bool. f (x tmp)) (fst g)
+SIZE_SYNTH:16
+TIME:215.40 us
+__NEW_EXAMPLE__
+SIZE_ORIG:7
+IN:let a:=1 in (snd (10, 1+{|Int|}))
+SYNTH:let a := 1 in snd (10, 1 + a)
+SIZE_SYNTH:8
+TIME:15.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:7
+IN:let a:= true in lambda f: Bool->Int.(lambda g:(Bool*(Bool*(Bool*(Bool*Bool))))->Int.if {|Bool|} then 1 else 0)
+SYNTH:let a := true in lambda f : Bool -> Int. lambda g : (Bool * (Bool * (Bool * (Bool * Bool)))) -> Int. if a then 1 else 0
+SIZE_SYNTH:8
+TIME:27.40 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda g:(Bool*(Bool*(Bool*(Bool*Bool))))->Int.if {|Bool|} then 1 else 0
+SYNTH:ERROR
+SIZE_SYNTH:None
+TIME:3.76 ms
+__NEW_EXAMPLE__
+SIZE_ORIG:9
+IN:(lambda f:Int->Bool.(lambda g: (Int*(Int*Int)).if {|Bool|} then (fst (snd g)) else (snd (snd g))))
+SYNTH:lambda f : Int -> Bool. lambda g : Int * (Int * Int). if f (fst g) then (fst (snd g)) else (snd (snd g))
+SIZE_SYNTH:13
+TIME:50.70 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda f1:(Bool*(Int*Int))->(Int*Int).lambda f2:Int.lambda f3:Bool->Int.lambda f4:Bool.{|Int*Int|}
+SYNTH:lambda f1 : (Bool * (Int * Int)) -> (Int * Int). lambda f2 : Int. lambda f3 : Bool -> Int. lambda f4 : Bool. (f2, f2)
+SIZE_SYNTH:7
+TIME:23.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:10
+IN:1 + callcc (lambda k: Int->Void. 2 + abort Int (k 5))
+SYNTH:1 + (callcc (lambda k : Int -> Void. 2 + (abort Int (k 5))))
+SIZE_SYNTH:10
+TIME:20.10 us
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda b: Bool. (if {|Bool|} then 1 else 2)
+SYNTH:lambda b : Bool. if b then 1 else 2
+SIZE_SYNTH:5
+TIME:12.20 us
+__NEW_EXAMPLE__
+SIZE_ORIG:12
+IN:let x:=(1,2) in (((1 + 2) - {|Int|}) * (0 - 1))
+SYNTH:let x := (1, 2) in ((1 + 2) - (fst x)) * (0 - 1)
+SIZE_SYNTH:14
+TIME:20.60 us
+__END__
