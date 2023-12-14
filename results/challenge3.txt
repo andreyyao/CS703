@@ -1,0 +1,94 @@
+Args: ["challenge_examples"]
+__START__
+Reading files: ["challenge_examples\\multi-5.txt","challenge_examples\\multi-4.txt","challenge_examples\\multi-3.txt","challenge_examples\\multi-2.txt","challenge_examples\\multi-1.txt","challenge_examples\\left_single-5.txt","challenge_examples\\left_single-4.txt","challenge_examples\\left_single-3.txt","challenge_examples\\left_single-2.txt","challenge_examples\\left_single-1.txt","challenge_examples\\left_pair-5.txt","challenge_examples\\left_pair-4.txt","challenge_examples\\left_pair-3.txt","challenge_examples\\left_pair-2.txt","challenge_examples\\left_pair-1.txt"]
+__NEW_EXAMPLE__
+SIZE_ORIG:6
+IN:lambda f0:Int->Bool.lambda g0:Bool->(Bool*Int).lambda g1:(Bool*Int)->((Bool*Int)*Int).lambda f1:((Bool*Int)*Int)->(((Bool*Int)*Int)*Bool).lambda g2:(((Bool*Int)*Int)*Bool)->(Int*(((Bool*Int)*Int)*Bool)).lambda x:Int.{|(Int*(((Bool*Int)*Int)*Bool))|}
+SYNTH:lambda f0 : Int -> Bool. lambda g0 : Bool -> (Bool * Int). lambda g1 : (Bool * Int) -> ((Bool * Int) * Int). lambda f1 : ((Bool * Int) * Int) -> (((Bool * Int) * Int) * Bool). lambda g2 : (((Bool * Int) * Int) * Bool) -> (Int * (((Bool * Int) * Int) * Bool)). lambda x : Int. (lambda tmp : ((Bool * Int) * Int) -> (Int * (((Bool * Int) * Int) * Bool)). g2 (f1 tmp)) ((lambda tmp : Bool -> ((Bool * Int) * Int). g1 (g0 tmp)) (f0 x))
+SIZE_SYNTH:23
+TIME:16.93 s
+__NEW_EXAMPLE__
+SIZE_ORIG:5
+IN:lambda f0:Int->Bool.lambda g0:Bool->(Bool*Int).lambda g1:(Bool*Int)->((Bool*Int)*Int).lambda f1:((Bool*Int)*Int)->(((Bool*Int)*Int)*Bool).lambda x:Int.{|(((Bool*Int)*Int)*Bool)|}
+SYNTH:lambda f0 : Int -> Bool. lambda g0 : Bool -> (Bool * Int). lambda g1 : (Bool * Int) -> ((Bool * Int) * Int). lambda f1 : ((Bool * Int) * Int) -> (((Bool * Int) * Int) * Bool). lambda x : Int. f1 ((lambda tmp : Bool -> ((Bool * Int) * Int). g1 (g0 tmp)) (f0 x))
+SIZE_SYNTH:17
+TIME:3.71 s
+__NEW_EXAMPLE__
+SIZE_ORIG:4
+IN:lambda f0:Int->Bool.lambda g0:Bool->(Bool*Int).lambda g1:(Bool*Int)->((Bool*Int)*Int).lambda x:Int.{|((Bool*Int)*Int)|}
+SYNTH:lambda f0 : Int -> Bool. lambda g0 : Bool -> (Bool * Int). lambda g1 : (Bool * Int) -> ((Bool * Int) * Int). lambda x : Int. (lambda tmp : Bool -> ((Bool * Int) * Int). g1 (g0 tmp)) (f0 x)
+SIZE_SYNTH:14
+TIME:267.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:3
+IN:lambda f0:Int->Bool.lambda g0:Bool->(Bool*Int).lambda x:Int.{|(Bool*Int)|}
+SYNTH:lambda f0 : Int -> Bool. lambda g0 : Bool -> (Bool * Int). lambda x : Int. (lambda tmp : Int -> (Bool * Int). g0 (f0 tmp)) x
+SIZE_SYNTH:11
+TIME:74.30 us
+__NEW_EXAMPLE__
+SIZE_ORIG:2
+IN:lambda f0:Int->Bool.lambda x:Int.{|Bool|}
+SYNTH:lambda f0 : Int -> Bool. lambda x : Int. f0 x
+SIZE_SYNTH:5
+TIME:5.50 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int * (Int * (Int * (Int * (Int * Int)))))|}
+SYNTH:lambda a : Int. (a, (a, (a, (a, (a, a)))))
+SIZE_SYNTH:12
+TIME:1.65 s
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int * (Int * (Int * (Int * Int))))|}
+SYNTH:lambda a : Int. (a, (a, (a, (a, a))))
+SIZE_SYNTH:10
+TIME:604.20 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int * (Int * (Int * Int)))|}
+SYNTH:lambda a : Int. (a, (a, (a, a)))
+SIZE_SYNTH:8
+TIME:13.70 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int * (Int * Int))|}
+SYNTH:lambda a : Int. (a, (a, a))
+SIZE_SYNTH:6
+TIME:5.00 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda a:Int.{|(Int * Int)|}
+SYNTH:lambda a : Int. (a, a)
+SIZE_SYNTH:4
+TIME:3.20 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda x:(Int*(Int*(Int*(Int*Bool)))).{|Bool|}
+SYNTH:lambda x : Int * (Int * (Int * (Int * Bool))). snd (snd (snd (snd x)))
+SIZE_SYNTH:6
+TIME:621.06 ms
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda x:(Int*(Int*(Int*Bool))).{|Bool|}
+SYNTH:lambda x : Int * (Int * (Int * Bool)). snd (snd (snd x))
+SIZE_SYNTH:5
+TIME:376.00 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda x:(Int*(Int*Bool)).{|Bool|}
+SYNTH:lambda x : Int * (Int * Bool). snd (snd x)
+SIZE_SYNTH:4
+TIME:10.00 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda x:(Int*Bool).{|Bool|}
+SYNTH:lambda x : Int * Bool. snd x
+SIZE_SYNTH:3
+TIME:3.90 us
+__NEW_EXAMPLE__
+SIZE_ORIG:1
+IN:lambda x:Bool.{|Bool|}
+SYNTH:lambda x : Bool. x
+SIZE_SYNTH:2
+TIME:3.20 us
+__END__

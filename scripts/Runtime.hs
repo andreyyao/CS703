@@ -16,17 +16,19 @@ import Control.Exception
 import Formatting
 import Formatting.Clock
 import System.Clock
+import System.Environment   
+
 
 
 checkSynth:: String->String
 checkSynth prog = do
-    let origString =  "SIZE_ORIG:" ++ show ((sizeof. parseExpr . scanMany) prog) ++ "\nIN:"++prog in do
-        case (synthesize . parseExpr . scanMany) prog of
-            Just t -> origString++ "\nSYNTH:" ++ show t ++ "\nSIZE_SYNTH:" ++  show (sizeof t);
-            Nothing ->  origString ++ "\nSYNTH:ERROR\nSIZE_SYNTH:None"
+    case (synthesize . parseExpr . scanMany) prog of
+        Just t -> "SYNTH:" ++ show t ++ "\nSIZE_SYNTH:" ++  show (sizeof t);
+        Nothing ->  "SYNTH:ERROR\nSIZE_SYNTH:None"
 run :: String -> IO ()
 run prog = do
     putStrLn ("__NEW_EXAMPLE__")
+    putStrLn ("SIZE_ORIG:" ++ show ((sizeof. parseExpr . scanMany) prog) ++ "\nIN:"++prog)
     start <- getTime Monotonic
     putStrLn (checkSynth prog)
     end <- getTime Monotonic
@@ -34,9 +36,8 @@ run prog = do
     fprint (timeSpecs % "\n") start end
 
 
-readFilesInDirectory :: IO [String]
-readFilesInDirectory =
-  let dir = "examples" in do
+readFilesInDirectory :: String-> IO [String]
+readFilesInDirectory dir = do
     files <- listDirectory dir
     let filePaths = map (dir </>) files
     putStrLn ("Reading files: " ++ show filePaths)
@@ -49,7 +50,9 @@ readFileAsStrings filePath = do
 
 main :: IO ()
 main = do  
+    args <- getArgs
+    putStrLn ("Args: " ++ show args)
     putStrLn("__START__")
-    programs <- readFilesInDirectory
+    programs <- readFilesInDirectory (head args)
     mapM_ run programs
     putStrLn("__END__")

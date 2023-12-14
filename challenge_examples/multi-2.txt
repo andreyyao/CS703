@@ -1,0 +1,1 @@
+lambda f0:Int->Bool.lambda g0:Bool->(Bool*Int).lambda x:Int.{|(Bool*Int)|}

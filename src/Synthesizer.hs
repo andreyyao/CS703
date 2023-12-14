@@ -104,6 +104,6 @@ synth' ctxt expr =
     Hole t ->
       let p = type2Prop t in
       let f = ctxt2Forest ctxt in
-      case synthesisLoop 4 f p of
+      case synthesisLoop 6 f p of
         Just c -> Just (t, conc2Expr c)
         Nothing -> Nothing
